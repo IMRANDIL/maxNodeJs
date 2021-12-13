@@ -6,7 +6,7 @@ const { product } = require('../routes/admin')
 router.get('/', (req, res) => {
     const products = [...product];
     console.log(products);
-    res.render('shop', { products, docTitle: 'The Shop' })
+    res.render('shop', { products, title: 'The Shop', path: '/', hasProducts: products.length > 0 })
 })
 
 

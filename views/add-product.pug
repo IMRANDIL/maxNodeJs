@@ -13,7 +13,7 @@ html(lang="en")
                     li.list-item 
                         a(href="/") Shop 
                     li.list-item 
-                        a.active(href="/add-product") Add Products
+                        a(href="/add-product", class=(Path ==='/add-product' ? 'active' : '')) Add Products
         main 
             h1 Add the products:)
             form.product-form(action="/add-product",method="post")

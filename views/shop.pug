@@ -11,7 +11,7 @@ html(lang="en")
             nav.navbar
                 ul.list 
                     li.list-item 
-                        a.active(href="/") Shop 
+                        a(href="/", class=(Path==='/' ? 'active' : '')) Shop 
                     li.list-item 
                         a(href="/add-product") Add Products 
 

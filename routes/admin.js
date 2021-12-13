@@ -8,7 +8,7 @@ const product = [];
 router.get('/add-product', (req, res) => {
     // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
 
-    res.render('add-product', { title: `Add__Product` })
+    res.render('add-product', { title: `Add__Product`, path: '/add-product' })
 
 })
 

@@ -1,0 +1,20 @@
+<%- include('includesEjs/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+
+        <%- include('includesEjs/navigation.ejs') %>
+            <main>
+                <h1>Add the products:)</h1>
+                <form class="product-form" action="/add-product" , method="post">
+                    <div class="form-control">
+                        <label for="name">Title:</label>
+                        <input type="text" name="title" placeholder="Example:Coke" id="Title">
+                        <button type="submit">Add Product </button>
+                    </div>
+
+
+                </form>
+            </main>
+            <%- include('includesEjs/end.ejs') %>
