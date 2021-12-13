@@ -1,21 +1,25 @@
-const http = require('http');
+const express = require('express');
+const path = require('path')
+const { router } = require('./routes/admin');
+const shoprouter = require('./routes/shop');
+// const { product } = require('./routes/admin')
 
-const route = require('./routes')
+// const bodyparser = require('body-parser')
+const app = express();
+// app.locals.basedir = path.join(__dirname, 'views');
 
-const server = http.createServer(route);
+app.use(express.urlencoded({ extended: true }));
+// app.use(express.json())
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/', router)
+app.use(shoprouter)
 
-const PORT = process.env.PORT || 4000
+app.set('view engine', 'pug');
+app.set('views', 'views')
 
-server.listen(PORT, () => {
-    console.log(`server running on port: ${PORT} `);
+
+app.use((req, res, next) => {
+    res.status(404).render('404', { title: `404 Page` })
 })
 
-
-
-
-
- // if (url === '/message' && req.method === "POST") {
-
-    //     res.write(`<h1>Thank You..!! We got your Love!</h1><a href="/">Back Home</a>`);
-    //     return res.end()
-    // }
+app.listen(5000, () => console.log('server is running on port: 5000'))
