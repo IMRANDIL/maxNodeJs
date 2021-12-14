@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path')
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
+const Err = require('./controllers/products')
 // const expressHandle = require('express-handlebars')
 
 // const bodyparser = require('body-parser')
@@ -22,8 +23,6 @@ app.set('view engine', 'ejs');
 app.set('views', 'views')
 
 
-app.use((req, res, next) => {
-    res.status(404).render('404', { title: `404 Page`, path: req.url })
-})
+app.use(Err.err)
 
 app.listen(5000, () => console.log('server is running on port: 5000'))
