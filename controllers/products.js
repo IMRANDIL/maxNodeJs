@@ -5,11 +5,21 @@ const Product = require('../modals/product')
 
 
 exports.getProduct = (req, res) => {
-    const product = Product.fetchAll()
-    const products = [...product]
-    console.log(products);
 
-    res.render('shop', { products, title: 'The Shop', path: '/', hasProducts: products.length > 0 })
+    Product.fetchAll((product) => {
+        const products = [...product]
+        console.log(product);
+
+        res.render('shop', { products, title: 'The Shop', path: req.url, hasProducts: products.length > 0 });
+    });
+
+
+
+
+
+
+
+
 }
 
 
@@ -19,7 +29,7 @@ exports.postProduct = (req, res) => {
     product.save()
     // products.push(req.body)
 
-    res.redirect('/')
+    return res.redirect('/')
 
 }
 
@@ -27,15 +37,12 @@ exports.postProduct = (req, res) => {
 exports.getProducts = (req, res) => {
     // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
 
-    res.render('add-product', { title: `Add__Product`, path: '/add-product' })
+    res.render('add-product', { title: `Add__Product`, path: req.url })
 
 }
 
 
 
-exports.err = (req, res, next) => {
-    res.status(404).render('404', { title: `404 Page`, path: req.url })
-}
 
 
 

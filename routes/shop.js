@@ -1,5 +1,5 @@
 const express = require('express');
-const routeDir = require('../util/path')
+
 const router = express.Router();
 const getprod = require('../controllers/products')
 // const path = require('path');
