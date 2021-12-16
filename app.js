@@ -1,5 +1,5 @@
 const express = require('express');
-const path = require('path')
+const path = require('path');
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
@@ -12,11 +12,11 @@ app.use(express.static(path.join(__dirname, 'public/css')))
 
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.json())
-app.use(shoprouter)
+app.use('/', shoprouter)
 app.use('/', router)
 
 // app.engine('handlebars', expressHandle())
-
+const port = process.env.PORT || 5000
 app.set('view engine', 'ejs');
 
 
@@ -26,4 +26,4 @@ app.set('views', 'views')
 
 app.use(Err.err)
 
-app.listen(5000)
+app.listen(port)

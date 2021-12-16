@@ -10,40 +10,27 @@ exports.getProduct = (req, res) => {
         const products = [...product]
         console.log(product);
 
-        res.render('shop', { products, title: 'The Shop', path: req.url, hasProducts: products.length > 0 });
+        res.render('shop/shop', { products, title: 'All Products', path: req.url, hasProducts: products.length > 0 });
     });
 
-
-
-
-
-
-
-
 }
 
 
+exports.getIndex = (req, res, next) => {
+    Product.fetchAll((product) => {
+        const products = [...product]
+        console.log(product);
 
-exports.postProduct = (req, res) => {
-    const product = new Product(req.body.title);
-    product.save()
-    // products.push(req.body)
-
-    return res.redirect('/')
-
+        res.render('shop/index', { products, title: 'The Shop', path: req.url, hasProducts: products.length > 0 });
+    });
 }
 
 
-exports.getProducts = (req, res) => {
-    // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
-
-    res.render('add-product', { title: `Add__Product`, path: req.url })
-
+exports.getCart = (req, res, next) => {
+    res.render('shop/cart', { path: req.url, title: 'The_Cart' })
 }
 
 
-
-
-
-
-
+exports.getCheckOut = (req, res, next) => {
+    res.render('shop/checkout', { path: req.url, title: 'The_CheckOut' })
+}

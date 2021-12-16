@@ -6,7 +6,8 @@ const pth = path.join(path.dirname(process.mainModule.filename), 'data', 'produc
 const getProductFrom = (cb) => {
     fs.readFile(pth, (err, data) => {
         if (err) {
-            cb(JSON.parse('[]'))
+
+            cb([{}])
         }
         else {
             cb(JSON.parse(data))

@@ -6,7 +6,10 @@ const getprod = require('../controllers/products')
 // const { product } = require('../routes/admin');
 
 
-router.get('/', getprod.getProduct)
+router.get('/', getprod.getIndex);
+router.get('/products', getprod.getProduct);
+router.get('/cart', getprod.getCart);
+router.get('/checkout', getprod.getCheckOut);
 
 
 module.exports = router;
