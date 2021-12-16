@@ -62,13 +62,16 @@ h1 {
 }
 
 .form-control label,
-.form-control input {
+.form-control input,
+.form-control textarea
+{
     display: block;
     width: 100%;
     margin-top: 9px;
 }
 
-.form-control input {
+.form-control input,
+.form-control textarea {
     border: 1px solid rgb(66, 114, 247);
     font: inherit;
     border-radius: 3px;
@@ -101,4 +104,9 @@ label {
 button:hover,
 button:active {
     background-color: tomato;
+}
+
+.form-control input:focus,
+.form-control textarea:focus{
+    outline-color: brown;
 }

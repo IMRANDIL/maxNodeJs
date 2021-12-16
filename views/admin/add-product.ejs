@@ -11,8 +11,28 @@
                     <div class="form-control">
                         <label for="name">Title:</label>
                         <input type="text" name="title" placeholder="Example:Coke" id="Title">
-                        <button type="submit">Add Product </button>
+
                     </div>
+
+                    <div class="form-control">
+                        <label for="imageUrl">Image Url:</label>
+                        <input type="text" name="imageUrl" placeholder="Example:url" id="imageUrl" autocomplete="off">
+
+                    </div>
+                    <div class="form-control">
+                        <label for="price">Price:</label>
+                        <input type="number" name="price" placeholder="Example:$7" id="price" step="0.01" min="5"
+                            max="1000">
+
+                    </div>
+
+                    <div class="form-control">
+                        <label for="desc">Description:</label>
+                        <textarea name="desc" id="desc" rows="5"></textarea>
+                    </div>
+                    <form action="/views/admin/add-to-cart" method="post">
+                        <button type="submit">Add Product </button>
+                    </form>
 
 
                 </form>

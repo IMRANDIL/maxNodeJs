@@ -16,16 +16,14 @@
                                     </h1>
                                 </header>
                                 <div class="card__image">
-                                    <img src="https://thumbs.dreamstime.com/b/old-book-flying-letters-magic-light-background-bookshelf-library-ancient-books-as-symbol-knowledge-history-218640948.jpg"
-                                        alt="The book">
+                                    <img src='<%=products[prod].imageUrl%>' alt='<%=products[prod].title%>'>
                                 </div>
                                 <div class="card__content">
-                                    <h2 class="product__price">$20.99</h2>
-                                    <p class="product__description">A very interesting book about so many mythology,
-                                        traditions
-                                        and
-                                        much
-                                        more!</p>
+                                    <h2 class="product__price">$<%=products[prod].price%>
+                                    </h2>
+                                    <p class="product__description">
+                                        <%=products[prod].desc%>
+                                    </p>
                                 </div>
                                 <div class="card__actions">
                                     <button class="btn">Add to Cart</button>
