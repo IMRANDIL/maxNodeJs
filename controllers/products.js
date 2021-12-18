@@ -8,18 +8,34 @@ exports.getProduct = (req, res) => {
 
     Product.fetchAll((product) => {
         const products = [...product]
-        console.log(product);
+        // console.log(product);
 
         res.render('shop/shop', { products, title: 'All Products', path: req.url, hasProducts: products.length > 0 });
     });
 
 }
 
+exports.getSpecId = (req, res, next) => {
+    const prodId = req.params.prodId;
+    Product.findbyId(prodId, (product) => {
+        res.render('shop/product-detail', {
+            product, title: product.title, path: '/products'
+        })
+    })
+
+}
+
+
+
+
+
+
+
 
 exports.getIndex = (req, res, next) => {
     Product.fetchAll((product) => {
         const products = [...product]
-        console.log(product);
+        // console.log(product);
 
         res.render('shop/index', { products, title: 'The Shop', path: req.url, hasProducts: products.length > 0 });
     });

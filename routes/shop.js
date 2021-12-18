@@ -8,6 +8,7 @@ const getprod = require('../controllers/products')
 
 router.get('/', getprod.getIndex);
 router.get('/products', getprod.getProduct);
+router.get('/products/:prodId', getprod.getSpecId)
 router.get('/cart', getprod.getCart);
 router.get('/checkout', getprod.getCheckOut);
 router.get('/orders', getprod.getOrder);
