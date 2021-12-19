@@ -8,7 +8,7 @@ exports.postProduct = (req, res) => {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const desc = req.body.desc
-    const product = new Product(title, imageUrl, desc, price);
+    const product = new Product(null, title, imageUrl, desc, price);
     product.save()
     // products.push(req.body)
 
@@ -17,12 +17,54 @@ exports.postProduct = (req, res) => {
 }
 
 
+exports.getEditProducts = (req, res) => {
+    // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
+    const editMode = req.query.edit;
+    if (!editMode) {
+        return res.redirect('/')
+    }
+    const prodId = req.params.productId;
+    Product.findbyId(prodId, (product) => {
+        if (!product) {
+            return res.redirect('/')
+        }
+        res.render('admin/edit-product', { product, title: `Edit__Product`, path: req.url, editing: editMode })
+
+    })
+
+}
+
+
+
+
+
+exports.postEdit = (req, res, next) => {
+    const prodId = req.body.productId;
+    const updatedTitle = req.body.title;
+    const updatedUrl = req.body.imageUrl;
+    const updatedPrice = req.body.price;
+    const updatedDesc = req.body.desc;
+    const updatedProduct = new Product(prodId, updatedTitle, updatedUrl, updatedDesc, updatedPrice);
+    updatedProduct.save();
+    return res.redirect('/products')
+}
+
+
+
+
+
+
+
 exports.getProducts = (req, res) => {
     // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
 
-    res.render('admin/add-product', { title: `Add__Product`, path: req.url })
+    res.render('admin/edit-product', { title: `Add__Product`, path: req.url, editing: false })
 
 }
+
+
+
+
 
 
 exports.getAdminProduct = (req, res, next) => {
