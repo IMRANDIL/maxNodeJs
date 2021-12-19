@@ -10,13 +10,14 @@
                 <hr>
                 <div> <img src="<%=product.imageUrl%>" alt=" <%=product.title%>" height="200" width="250"></div>
                 <h2>
-                    <%=product.price%>
+                    $<%=product.price%>
                 </h2>
                 <p>
                     <%=product.desc%>
                 </p>
                 <form action="/cart" method="post">
                     <button class="btn" type="submit">Add To Cart</button>
+                    <input type="hidden" name="productId" value="<%=product.id%>">
                 </form>
             </main>
             <%- include('../includesEjs/end.ejs') %>

@@ -1,7 +1,8 @@
 // const { product } = require('../routes/admin');
 // const products = [];
 
-const Product = require('../modals/product')
+const Product = require('../modals/product');
+const Cart = require('../modals/cart')
 
 
 exports.getProduct = (req, res) => {
@@ -45,6 +46,16 @@ exports.getIndex = (req, res, next) => {
 exports.getCart = (req, res, next) => {
     res.render('shop/cart', { path: req.url, title: 'The_Cart' })
 }
+
+exports.postCart = (req, res, next) => {
+    const prodId = req.body.productId;
+    Product.findbyId(prodId, (product) => {
+        Cart.addProduct(prodId, product.price)
+    })
+    res.redirect('/cart')
+
+}
+
 
 
 exports.getCheckOut = (req, res, next) => {
