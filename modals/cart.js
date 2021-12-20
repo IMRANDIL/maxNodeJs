@@ -1,3 +1,4 @@
+const { json } = require('body-parser');
 const fs = require('fs');
 const path = require('path')
 
@@ -33,4 +34,35 @@ module.exports = class Cart {
 
 
     }
+
+    static deleteProduct(id, productPrice) {
+        fs.readFile(pth, (err, fileCont) => {
+            if (err) return;
+            const updatedCart = { ...fileCont };
+            const product = updatedCart.products.find(p => p.id === id);
+            const productQty = product.qty;
+            updatedCart.products = updatedCart.products.filter(prod => prod.id !== id)
+            updatedCart.totalPrice = updatedCart.totalPrice - productPrice * productQty;
+            fs.writeFile(pth, JSON.stringify(updatedCart), (err) => console.log(err))
+        })
+    }
+
+
+
+
+    static getCart(cb) {
+        fs.readFile(pth, (err, fileCont) => {
+            const cart = JSON.parse(fileCont);
+            if (err) {
+                cb(null)
+            }
+            else {
+                cb(cart)
+            }
+        })
+    }
+
+
+
+
 }

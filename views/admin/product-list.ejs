@@ -17,7 +17,7 @@
                                 </header>
                                 <div class="card__image">
                                     <img src="<%= products[prod].imageUrl %>" alt="<%= products[prod].title %>"
-                                        width="300" height="300">
+                                        width="400" height="300">
                                 </div>
                                 <div class="card__content">
                                     <h2 class="product__price">$
@@ -30,6 +30,7 @@
                                 <div class="card__actions">
                                     <a href="/edit-product/<%=products[prod].id%>?edit=true" class="btn">Edit</a>
                                     <form action="/delete-product" method="POST">
+                                        <input type="hidden" name="productId" value="<%= products[prod].id %>">
                                         <button class="btn" type="submit">Delete</button>
                                     </form>
 

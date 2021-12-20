@@ -3,4 +3,19 @@
 
     <body>
         <%- include('../includesEjs/navigation.ejs') %>
+            <main>
+                <% if (cartProducts.length> 0) { %>
+                    <ul>
+                        <% cartProducts.forEach(product=> { %>
+                            <li>
+                                <%= product.productData.title %> (<%= product.qty %>)
+                            </li>
+
+                            <% }) %>
+                    </ul>
+                    <% } else { %>
+                        <h1>No Products found..!!</h1>
+
+                        <% } %>
+            </main>
             <%- include('../includesEjs/end.ejs') %>

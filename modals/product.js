@@ -1,6 +1,7 @@
 const { json } = require('body-parser');
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
+const Cart = require('../modals/cart')
 const pth = path.join(path.dirname(process.mainModule.filename), 'data', 'products.json');
 
 const getProductFrom = (cb) => {
@@ -48,6 +49,24 @@ module.exports = class Product {
         })
 
     }
+
+
+
+
+    static delete(id) {
+        getProductFrom((products) => {
+            const product = products.find(prod => prod.id === id)
+            const updatedProducts = products.filter(p => p.id !== id)
+            fs.writeFile(pth, JSON.stringify(updatedProducts), (err) => {
+                if (!err) {
+                    Cart.deleteProduct(id, product.price)
+                }
+            })
+        })
+    }
+
+
+
 
 
     static fetchAll(cb) {

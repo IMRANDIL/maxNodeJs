@@ -50,7 +50,11 @@ exports.postEdit = (req, res, next) => {
 }
 
 
-
+exports.deleteProduct = (req, res, next) => {
+    const prodId = req.body.productId;
+    Product.delete(prodId);
+    return res.redirect('/admin-products')
+}
 
 
 
