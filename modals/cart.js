@@ -38,8 +38,10 @@ module.exports = class Cart {
     static deleteProduct(id, productPrice) {
         fs.readFile(pth, (err, fileCont) => {
             if (err) return;
-            const updatedCart = { ...fileCont };
+            const updatedCart = { ...JSON.parse(fileCont) };
+
             const product = updatedCart.products.find(p => p.id === id);
+            if (!product) return;
             const productQty = product.qty;
             updatedCart.products = updatedCart.products.filter(prod => prod.id !== id)
             updatedCart.totalPrice = updatedCart.totalPrice - productPrice * productQty;

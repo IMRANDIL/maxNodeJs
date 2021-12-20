@@ -70,6 +70,15 @@ exports.postCart = (req, res, next) => {
 }
 
 
+exports.deleteCart = (req, res, next) => {
+    const prodId = req.body.productId;
+    Product.findbyId(prodId, product => {
+        Cart.deleteProduct(prodId, product.price);
+
+    })
+    return res.redirect('/cart')
+}
+
 
 exports.getCheckOut = (req, res, next) => {
     res.render('shop/checkout', { path: req.url, title: 'The_CheckOut' })
