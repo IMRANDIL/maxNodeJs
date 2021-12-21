@@ -7,12 +7,9 @@ const Cart = require('../modals/cart')
 
 exports.getProduct = (req, res) => {
 
-    Product.fetchAll((product) => {
-        const products = [...product]
-        // console.log(product);
-
-        res.render('shop/shop', { products, title: 'All Products', path: req.url, hasProducts: products.length > 0 });
-    });
+    Product.fetchAll().then(([rows, fileData]) => {
+        res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0 });
+    }).catch((err) => console.log(err));
 
 }
 
@@ -34,12 +31,11 @@ exports.getSpecId = (req, res, next) => {
 
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll((product) => {
-        const products = [...product]
-        // console.log(product);
+    Product.fetchAll().then(([rows, fileData]) => {
+        // console.log(rows);
+        res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0 });
+    }).catch((err) => console.log(err));
 
-        res.render('shop/index', { products, title: 'The Shop', path: req.url, hasProducts: products.length > 0 });
-    });
 }
 
 

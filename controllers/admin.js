@@ -9,10 +9,14 @@ exports.postProduct = (req, res) => {
     const price = req.body.price;
     const desc = req.body.desc
     const product = new Product(null, title, imageUrl, desc, price);
-    product.save()
+    // console.log(product);
+    product.save().then(() => {
+
+        res.redirect('/products')
+    }).catch((err) => console.log(err))
     // products.push(req.body)
 
-    return res.redirect('/products')
+
 
 }
 
