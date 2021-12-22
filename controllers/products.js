@@ -7,7 +7,7 @@ const Cart = require('../modals/cart')
 
 exports.getProduct = (req, res) => {
 
-    Product.fetchAll().then(([rows, fileData]) => {
+    Product.findAll().then((rows) => {
         res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0 });
     }).catch((err) => console.log(err));
 
@@ -15,7 +15,7 @@ exports.getProduct = (req, res) => {
 
 exports.getSpecId = (req, res, next) => {
     const prodId = req.params.prodId;
-    Product.findbyId(prodId).then(([rows]) => {
+    Product.findByPk(prodId).then((rows) => {
         // console.log(rows);
         res.render('shop/product-detail', {
             rows, title: rows.title, path: '/products'
@@ -32,8 +32,8 @@ exports.getSpecId = (req, res, next) => {
 
 
 exports.getIndex = (req, res, next) => {
-    Product.fetchAll().then(([rows, fileData]) => {
-        // console.log(rows);
+    Product.findAll().then((rows) => {
+        // console.log(rows.dataValues);
         res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0 });
     }).catch((err) => console.log(err));
 

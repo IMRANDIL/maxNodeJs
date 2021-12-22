@@ -8,13 +8,15 @@ exports.postProduct = (req, res) => {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const desc = req.body.desc
-    const product = new Product(null, title, imageUrl, desc, price);
-    // console.log(product);
-    product.save().then(() => {
-
+    Product.create({
+        title: title,
+        price: price,
+        imageUrl: imageUrl,
+        desc: desc
+    }).then((result) => {
+        console.log('Successfully Created');
         res.redirect('/products')
-    }).catch((err) => console.log(err))
-    // products.push(req.body)
+    }).catch(err => console.log(err))
 
 
 
@@ -56,8 +58,15 @@ exports.postEdit = (req, res, next) => {
 
 exports.deleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.delete(prodId);
-    return res.redirect('/admin-products')
+    Product.findByPk(prodId).then((product) => {
+        return product.destroy();
+
+    }).then((result) => {
+        console.log('Succssfully deleted ', result);
+        res.redirect('/admin-products')
+
+    }).catch(err => console.log(err))
+
 }
 
 
@@ -76,12 +85,9 @@ exports.getProducts = (req, res) => {
 
 
 exports.getAdminProduct = (req, res, next) => {
-    Product.fetchAll((product) => {
-        const products = [...product]
-        console.log(product);
-
-        res.render('admin/product-list', { products, title: 'The Admin', path: req.url, hasProducts: products.length > 0 });
-    });
+    Product.findAll().then((rows) => {
+        res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0 });
+    }).catch(err => console.log(err))
 }
 
 

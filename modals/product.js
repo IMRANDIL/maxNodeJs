@@ -1,53 +1,31 @@
+const Sequelize = require('sequelize');
+
 const db = require('../util/database');
-const Cart = require('../modals/cart')
 
 
-module.exports = class Product {
-    constructor(id, title, imageUrl, desc, price) {
-        this.id = id;
-        this.title = title;
-        this.imageUrl = imageUrl;
-        this.desc = desc;
-        this.price = price;
-
+const Product = db.define('product', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    price: {
+        type: Sequelize.DOUBLE,
+        allowNull: false
+    },
+    imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    desc: {
+        type: Sequelize.TEXT,
+        allowNull: false
     }
-    save() {
-        return db.execute('INSERT INTO `products` (`title`, `price`, `desc`, `imageUrl`) VALUES (?, ?, ?, ?)', [this.title, this.price, this.desc, this.imageUrl]);
-        // products.push(this)
+});
 
-
-
-    }
-
-
-
-
-    static delete(id) {
-
-    }
-
-
-
-
-
-    static fetchAll() {
-        return db.execute('SELECT * FROM NodeJs.products');
-
-
-    }
-
-    static findbyId(id) {
-        return db.execute('SELECT * FROM products WHERE products.id = ?', [id])
-    }
-}
-
-
-
-
-
-
-// const data = fs.readFileSync(pth, 'utf-8');
-// if (data === '') {
-//     fs.writeFileSync(pth, '[]')
-// }
-// return JSON.parse(data)
+module.exports = Product;

@@ -5,19 +5,19 @@
         <%- include('../includesEjs/navigation.ejs') %>
             <main class="centered">
                 <h1>
-                    <%=rows[0].title%>
+                    <%=rows.title%>
                 </h1>
                 <hr>
-                <div> <img src="<%=rows[0].imageUrl%>" alt=" <%=rows[0].title%>" height="200" width="250"></div>
+                <div> <img src="<%=rows.imageUrl%>" alt=" <%=rows.title%>" height="200" width="250"></div>
                 <h2>
-                    $<%=rows[0].price%>
+                    $<%=rows.price%>
                 </h2>
                 <p>
-                    <%=rows[0].desc%>
+                    <%=rows.desc%>
                 </p>
                 <form action="/cart" method="post">
                     <button class="btn" type="submit">Add To Cart</button>
-                    <input type="hidden" name="productId" value="<%=rows[0].id%>">
+                    <input type="hidden" name="productId" value="<%=rows.id%>">
                 </form>
             </main>
             <%- include('../includesEjs/end.ejs') %>

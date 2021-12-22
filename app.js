@@ -3,7 +3,7 @@ const path = require('path');
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
-
+const sequelize = require('./util/database');
 // const expressHandle = require('express-handlebars')
 
 // const bodyparser = require('body-parser')
@@ -27,5 +27,9 @@ app.set('views', 'views')
 
 
 app.use(Err.err)
+sequelize.sync().then((result) => {
 
-app.listen(port)
+    app.listen(port)
+    // console.log(result);
+}).catch(err => console.log(err))
+
