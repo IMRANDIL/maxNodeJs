@@ -15,11 +15,12 @@ exports.getProduct = (req, res) => {
 
 exports.getSpecId = (req, res, next) => {
     const prodId = req.params.prodId;
-    Product.findbyId(prodId, (product) => {
+    Product.findbyId(prodId).then(([rows]) => {
+        // console.log(rows);
         res.render('shop/product-detail', {
-            product, title: product.title, path: '/products'
+            rows, title: rows.title, path: '/products'
         })
-    })
+    }).catch(err => console.log(err))
 
 }
 
