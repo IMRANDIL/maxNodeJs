@@ -14,7 +14,7 @@ exports.postProduct = (req, res) => {
         imageUrl: imageUrl,
         desc: desc
     }).then((result) => {
-        console.log('Successfully Created');
+        console.log(`Successfully Created ${result.title}`);
         res.redirect('/products')
     }).catch(err => console.log(err))
 
@@ -59,7 +59,7 @@ exports.postEdit = (req, res, next) => {
         return product.save();
 
     }).then((result) => {
-        console.log(`successfully updated `);
+        console.log(`successfully updated ${result.title}`);
         res.redirect('/products')
     })
         .catch(err => console.log(err))
@@ -73,7 +73,7 @@ exports.deleteProduct = (req, res, next) => {
         return product.destroy();
 
     }).then((result) => {
-        console.log('Succssfully deleted ', result);
+        console.log('Succssfully deleted ', result.title);
         res.redirect('/admin-products')
 
     }).catch(err => console.log(err))
