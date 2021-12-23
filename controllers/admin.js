@@ -30,13 +30,14 @@ exports.getEditProducts = (req, res) => {
         return res.redirect('/')
     }
     const prodId = req.params.productId;
-    Product.findbyId(prodId, (product) => {
+    Product.findByPk(prodId).then((product) => {
         if (!product) {
-            return res.redirect('/')
+            return res.redirect('/');
         }
-        res.render('admin/edit-product', { product, title: `Edit__Product`, path: req.url, editing: editMode })
-
-    })
+        else {
+            res.render('admin/edit-product', { product, title: `Edit__Product`, path: req.url, editing: editMode })
+        }
+    }).catch(err => console.log(err));
 
 }
 
@@ -50,9 +51,19 @@ exports.postEdit = (req, res, next) => {
     const updatedUrl = req.body.imageUrl;
     const updatedPrice = req.body.price;
     const updatedDesc = req.body.desc;
-    const updatedProduct = new Product(prodId, updatedTitle, updatedUrl, updatedDesc, updatedPrice);
-    updatedProduct.save();
-    return res.redirect('/products')
+    Product.findByPk(prodId).then((product) => {
+        product.title = updatedTitle;
+        product.imageUrl = updatedUrl;
+        product.price = updatedPrice;
+        product.desc = updatedDesc;
+        return product.save();
+
+    }).then((result) => {
+        console.log(`successfully updated `);
+        res.redirect('/products')
+    })
+        .catch(err => console.log(err))
+
 }
 
 

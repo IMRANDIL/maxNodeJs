@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+require('dotenv');
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
