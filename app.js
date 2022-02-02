@@ -7,6 +7,9 @@ const Err = require('./controllers/err');
 const sequelize = require('./util/database');
 const Product = require('./modals/product');
 const User = require('./modals/user');
+const Cart = require('./modals/cart');
+const CartItem = require('./modals/cart-item');
+
 
 const app = express();
 
@@ -73,13 +76,29 @@ Product.belongsTo(User, {
 User.hasMany(Product);
 
 
+User.hasOne(Cart)
+
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+
+Product.belongsToMany(Cart, { through: CartItem })
+
+
+
+
+
+
+
+
+
+
 app.use(Err.err);
 
 
 
 // sequelize.sync({ force: true })
 
-sequelize.sync().then((result) => {
+sequelize.sync({ force: true }).then((result) => {
     return User.findByPk(1);
 
     // console.log(result);
