@@ -7,13 +7,17 @@ exports.postProduct = (req, res) => {
     const title = req.body.title;
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
-    const desc = req.body.desc
+    const desc = req.body.desc;
+    const userId = req.Specuser.id;
+
     Product.create({
         title: title,
         price: price,
         imageUrl: imageUrl,
-        desc: desc
+        desc: desc,
+        userId: userId
     }).then((result) => {
+
         console.log(`Successfully Created ${result.title}`);
         res.redirect('/products')
     }).catch(err => console.log(err))
@@ -96,7 +100,7 @@ exports.getProducts = (req, res) => {
 
 
 exports.getAdminProduct = (req, res, next) => {
-    Product.findAll().then((rows) => {
+    req.Specuser.getProducts().then((rows) => {
         res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0 });
     }).catch(err => console.log(err))
 }

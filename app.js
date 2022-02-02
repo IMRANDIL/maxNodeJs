@@ -7,37 +7,63 @@ const Err = require('./controllers/err');
 const sequelize = require('./util/database');
 const Product = require('./modals/product');
 const User = require('./modals/user');
-// const expressHandle = require('express-handlebars')
 
-// const bodyparser = require('body-parser')
 const app = express();
+
+const userSpec = async (req, res, next) => {
+    try {
+        const Specuser = await User.findByPk(1);
+
+        req.Specuser = Specuser;
+
+        next()
+
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
+}
+
+app.use(userSpec)
+
 
 
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(express.urlencoded({ extended: true }));
-// app.use(express.json())
+app.use(express.json())
+
+
 app.use('/', shoprouter)
-app.use('/', router)
+app.use('/', router);
+
+
+
+
+
 require('dotenv').config();
 // app.engine('handlebars', expressHandle())
 const port = process.env.PORT || 8000;
 
-app.use((req, res, next) => {
-    User.findByPk(1).then((user) => {
-        req.user = user;
-        next()
-    }).catch(err => console.log(err))
-})
 
 app.set('view engine', 'ejs');
 
 
 // app.set('view engine', 'pug');
-app.set('views', 'views')
+app.set('views', 'views');
 
 
-app.use(Err.err);
+
+
+
+
+
+
+
+
+//Relations....
 
 Product.belongsTo(User, {
     constraints: true,
@@ -45,6 +71,11 @@ Product.belongsTo(User, {
 });
 
 User.hasMany(Product);
+
+
+app.use(Err.err);
+
+
 
 // sequelize.sync({ force: true })
 
@@ -60,6 +91,5 @@ sequelize.sync().then((result) => {
 }).then((user) => {
     // console.log(user);
     app.listen(port)
-})
-    .catch(err => console.log(err))
+}).catch(err => console.log(err))
 
