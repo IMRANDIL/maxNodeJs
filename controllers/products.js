@@ -44,7 +44,7 @@ exports.getCart = (req, res, next) => {
 
 
     req.Specuser.getCart().then((cart) => {
-        return cart.getProduct().then((cartProducts) => {
+        return cart.getProducts().then((cartProducts) => {
             res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
         }).catch(err => console.log(err))
     }).catch(err => console.log(err))
@@ -54,10 +54,28 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.findbyId(prodId, (product) => {
-        Cart.addProduct(prodId, product.price)
-    })
-    res.redirect('/cart')
+    let fetchedCart;
+    req.Specuser.getCart().then((cart) => {
+        fetchedCart = cart;
+        return cart.getProducts({ where: { id: prodId } }).then((products) => {
+            let product;
+            if (products.length > 0) {
+                product = products[0]
+            }
+
+            let newQuantity = 1;
+            if (product) {
+                //....
+            }
+
+            return Product.findByPk(prodId).then((product) => {
+                return fetchedCart.addProduct(product, { through: { quantity: newQuantity } })
+            }).catch(err => console.log(err))
+
+        }).then(() => {
+            res.redirect('/cart')
+        })
+    }).catch(err => console.log(err))
 
 }
 
