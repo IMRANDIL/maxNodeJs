@@ -98,7 +98,7 @@ app.use(Err.err);
 
 // sequelize.sync({ force: true })
 
-sequelize.sync({ force: true }).then((result) => {
+sequelize.sync().then((result) => {
     return User.findByPk(1);
 
     // console.log(result);
@@ -108,7 +108,11 @@ sequelize.sync({ force: true }).then((result) => {
     }
     return user;
 }).then((user) => {
+    return user.createCart();
     // console.log(user);
+
+}).then((cart) => {
     app.listen(port)
-}).catch(err => console.log(err))
+})
+    .catch(err => console.log(err))
 

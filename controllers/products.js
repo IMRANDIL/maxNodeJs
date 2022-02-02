@@ -41,19 +41,14 @@ exports.getIndex = (req, res, next) => {
 
 
 exports.getCart = (req, res, next) => {
-    Cart.getCart((cart) => {
-        Product.fetchAll((products) => {
-            const cartProducts = [];
-            for (product of products) {
-                const cartProductsData = cart.products.find(prod => prod.id === product.id)
-                if (cartProductsData) {
-                    cartProducts.push({ productData: product, qty: cartProductsData.qty });
-                }
-            }
-            res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
-        })
 
-    })
+
+    req.Specuser.getCart().then((cart) => {
+        return cart.getProduct().then((cartProducts) => {
+            res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
+        }).catch(err => console.log(err))
+    }).catch(err => console.log(err))
+
 
 }
 
