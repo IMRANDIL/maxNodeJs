@@ -2,7 +2,8 @@
 // const products = [];
 
 const Product = require('../modals/product');
-const Cart = require('../modals/cart')
+
+
 
 
 exports.getProduct = (req, res) => {
@@ -84,6 +85,31 @@ exports.postCart = (req, res, next) => {
     }).catch(err => console.log(err))
 
 }
+
+
+
+exports.postOrder = (req, res, next) => {
+    req.Specuser.getCart().then((cart) => {
+        return cart.getProducts()
+    }).then((products) => {
+        return req.Specuser.createOrder().then((order) => {
+            return order.addProducts(products.map((product) => {
+                product.orderItem = { quantity: product.cartItem.quantity }
+                return product;
+            }))
+        }).catch(err => console.log(err));
+    }).then((result) => {
+        res.redirect('/orders')
+    })
+        .catch((err) => console.log(err))
+}
+
+
+
+
+
+
+
 
 
 exports.deleteCart = (req, res, next) => {
