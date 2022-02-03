@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { mongoConnect } = require('./util/database')
+const mongoConnect = require('./util/database').mongoConnect;
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
@@ -8,21 +8,21 @@ const Err = require('./controllers/err');
 
 const app = express();
 
-const userSpec = async (req, res, next) => {
-    // try {
-    //     const Specuser = await User.findByPk(1);
+// const userSpec = async (req, res, next) => {
+//     // try {
+//     //     const Specuser = await User.findByPk(1);
 
-    //     req.Specuser = Specuser;
+//     //     req.Specuser = Specuser;
 
-    //     next()
-
-
-    // } catch (error) {
-    //     console.log(error);
-    // }
+//     next()
 
 
-}
+//     // } catch (error) {
+//     //     console.log(error);
+//     // }
+
+
+// }
 
 // app.use(userSpec)
 

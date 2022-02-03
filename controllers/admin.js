@@ -8,17 +8,11 @@ exports.postProduct = (req, res) => {
     const imageUrl = req.body.imageUrl;
     const price = req.body.price;
     const desc = req.body.desc;
-    const userId = req.Specuser.id;
+    // const userId = req.Specuser.id;
+    const product = new Product(title, price, desc, imageUrl)
+    product.save().then((result) => {
 
-    Product.create({
-        title: title,
-        price: price,
-        imageUrl: imageUrl,
-        desc: desc,
-        userId: userId
-    }).then((result) => {
-
-        console.log(`Successfully Created ${result.title}`);
+        console.log(`Successfully Created`);
         res.redirect('/products')
     }).catch(err => console.log(err))
 
