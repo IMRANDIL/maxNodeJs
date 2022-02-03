@@ -28,7 +28,7 @@ exports.postProduct = (req, res) => {
 
 
 exports.getEditProducts = (req, res) => {
-    // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
+
     const editMode = req.query.edit;
     if (!editMode) {
         return res.redirect('/')
