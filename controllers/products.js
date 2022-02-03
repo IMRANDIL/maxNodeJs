@@ -88,11 +88,16 @@ exports.postCart = (req, res, next) => {
 
 exports.deleteCart = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.findbyId(prodId, product => {
-        Cart.deleteProduct(prodId, product.price);
-
+    req.Specuser.getCart().then((cart) => {
+        return cart.getProducts({ where: { id: prodId } })
+    }).then((products) => {
+        const product = products[0];
+        return product.cartItem.destroy()
+    }).then((result) => {
+        return res.redirect('/cart')
     })
-    return res.redirect('/cart')
+        .catch((err) => console.log(err))
+
 }
 
 
