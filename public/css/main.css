@@ -128,6 +128,40 @@ form {
   outline: none;
 }
 
+
+
+.cart__item-list{
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+
+
+}
+
+
+.cart__item{
+width: 80vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: burlywood;
+  margin-bottom: 5px;
+  border-radius: 10px;
+ 
+
+}
+
+
+
+
+
+
+
+
+
 #side-menu-toggle:active,
 #side-menu-toggle:hover {
   color: #ffeb3b;
