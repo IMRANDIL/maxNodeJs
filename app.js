@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-
+const mongoConnect = require('./util/database')
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
@@ -24,7 +24,7 @@ const userSpec = async (req, res, next) => {
 
 }
 
-app.use(userSpec)
+// app.use(userSpec)
 
 
 
@@ -34,8 +34,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 
 
-app.use('/', shoprouter)
-app.use('/', router);
+// app.use('/', shoprouter)
+// app.use('/', router);
 
 
 
@@ -66,7 +66,10 @@ app.set('views', 'views');
 
 app.use(Err.err);
 
+mongoConnect((client) => {
+    // console.log(client);
 
-app.listen(port, () => {
+    app.listen(port);
     console.log(`server is running on port: ${port}`);
 })
+
