@@ -89,7 +89,9 @@ exports.postCart = (req, res, next) => {
 
 
 exports.postOrder = (req, res, next) => {
+    let fetchedCart;
     req.Specuser.getCart().then((cart) => {
+        fetchedCart = cart;
         return cart.getProducts()
     }).then((products) => {
         return req.Specuser.createOrder().then((order) => {
@@ -98,6 +100,9 @@ exports.postOrder = (req, res, next) => {
                 return product;
             }))
         }).catch(err => console.log(err));
+    }).then((result) => {
+        return fetchedCart.setProducts(null)
+
     }).then((result) => {
         res.redirect('/orders')
     })
@@ -127,11 +132,12 @@ exports.deleteCart = (req, res, next) => {
 }
 
 
-exports.getCheckOut = (req, res, next) => {
-    res.render('shop/checkout', { path: req.url, title: 'The_CheckOut' })
-}
+
 
 
 exports.getOrder = (req, res, next) => {
-    res.render('shop/orders', { path: req.url, title: 'The Orders' })
+    req.Specuser.getOrders().then((orders) => {
+        res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders })
+    }).catch(err => console.log(err))
+
 }
