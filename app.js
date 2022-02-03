@@ -4,29 +4,22 @@ const path = require('path');
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
-const sequelize = require('./util/database');
-const Product = require('./modals/product');
-const User = require('./modals/user');
-const Cart = require('./modals/cart');
-const CartItem = require('./modals/cart-item');
-const Order = require('./modals/order');
-const OrderItem = require('./modals/order-item');
 
 
 const app = express();
 
 const userSpec = async (req, res, next) => {
-    try {
-        const Specuser = await User.findByPk(1);
+    // try {
+    //     const Specuser = await User.findByPk(1);
 
-        req.Specuser = Specuser;
+    //     req.Specuser = Specuser;
 
-        next()
+    //     next()
 
 
-    } catch (error) {
-        console.log(error);
-    }
+    // } catch (error) {
+    //     console.log(error);
+    // }
 
 
 }
@@ -49,14 +42,13 @@ app.use('/', router);
 
 
 require('dotenv').config();
-// app.engine('handlebars', expressHandle())
+
 const port = process.env.PORT || 8000;
 
 
 app.set('view engine', 'ejs');
 
 
-// app.set('view engine', 'pug');
 app.set('views', 'views');
 
 
@@ -68,30 +60,6 @@ app.set('views', 'views');
 
 
 
-//Relations....
-
-Product.belongsTo(User, {
-    constraints: true,
-    onDelete: 'CASCADE'
-});
-
-User.hasMany(Product);
-
-
-User.hasOne(Cart)
-
-Cart.belongsTo(User);
-Cart.belongsToMany(Product, { through: CartItem });
-
-Product.belongsToMany(Cart, { through: CartItem })
-
-Order.belongsTo(User);
-User.hasMany(Order);
-Order.belongsToMany(Product, { through: OrderItem })
-
-
-
-
 
 
 
@@ -99,24 +67,6 @@ Order.belongsToMany(Product, { through: OrderItem })
 app.use(Err.err);
 
 
-
-// sequelize.sync({ force: true })
-
-sequelize.sync().then((result) => {
-    return User.findByPk(1);
-
-    // console.log(result);
-}).then((user) => {
-    if (!user) {
-        return User.create({ name: 'Ali', email: 'aliimranadil2@gmail.com' })
-    }
-    return user;
-}).then((user) => {
-    return user.createCart();
-    // console.log(user);
-
-}).then((cart) => {
-    app.listen(port)
+app.listen(port, () => {
+    console.log(`server is running on port: ${port}`);
 })
-    .catch(err => console.log(err))
-
