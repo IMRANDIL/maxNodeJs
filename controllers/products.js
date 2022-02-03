@@ -136,7 +136,8 @@ exports.deleteCart = (req, res, next) => {
 
 
 exports.getOrder = (req, res, next) => {
-    req.Specuser.getOrders().then((orders) => {
+    req.Specuser.getOrders({ include: ['products'] }).then((orders) => {
+        console.log(orders);
         res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders })
     }).catch(err => console.log(err))
 
