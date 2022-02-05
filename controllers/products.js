@@ -8,7 +8,7 @@ const Product = require('../modals/product');
 
 exports.getProduct = (req, res) => {
 
-    Product.findAll().then((rows) => {
+    Product.fetchAll().then((rows) => {
         res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0 });
     }).catch((err) => console.log(err));
 
@@ -33,7 +33,7 @@ exports.getSpecId = (req, res, next) => {
 
 
 exports.getIndex = (req, res, next) => {
-    Product.findAll().then((rows) => {
+    Product.fetchAll().then((rows) => {
         // console.log(rows.dataValues);
         res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0 });
     }).catch((err) => console.log(err));

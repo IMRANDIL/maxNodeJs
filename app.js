@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-// app.use('/', shoprouter)
+app.use('/', shoprouter)
 app.use('/', router);
 
 
