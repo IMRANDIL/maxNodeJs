@@ -12,7 +12,7 @@ exports.postProduct = (req, res) => {
     const product = new Product(title, price, desc, imageUrl)
     product.save().then((result) => {
 
-        console.log(`Successfully Created`);
+        // console.log(`Successfully Created`);
         res.redirect('/products')
     }).catch(err => console.log(err))
 
