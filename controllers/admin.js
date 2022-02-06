@@ -66,14 +66,12 @@ exports.postEdit = (req, res, next) => {
 
 exports.deleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    Product.findByPk(prodId).then((product) => {
-        return product.destroy();
+    Product.deleteById(prodId)
+        .then(() => {
+            // console.log('Succssfully deleted ');
+            res.redirect('/admin-products')
 
-    }).then((result) => {
-        console.log('Succssfully deleted ', result.title);
-        res.redirect('/admin-products')
-
-    }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
 
 }
 

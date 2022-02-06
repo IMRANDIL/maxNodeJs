@@ -4,27 +4,28 @@ const mongoConnect = require('./util/database').mongoConnect;
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
+const User = require('./modals/user')
 
 
 const app = express();
 
-// const userSpec = async (req, res, next) => {
-//     // try {
-//     //     const Specuser = await User.findByPk(1);
+const userSpec = async (req, res, next) => {
+    try {
+        const Specuser = await User.findById("61ff8b7b000fabf9fff12360");
 
-//     //     req.Specuser = Specuser;
+        req.Specuser = Specuser;
 
-//     next()
-
-
-//     // } catch (error) {
-//     //     console.log(error);
-//     // }
+        next()
 
 
-// }
+    } catch (error) {
+        console.log(error);
+    }
 
-// app.use(userSpec)
+
+}
+
+app.use(userSpec)
 
 
 
@@ -67,7 +68,7 @@ app.set('views', 'views');
 app.use(Err.err);
 
 mongoConnect(() => {
-    // console.log(client);
+
 
     app.listen(port);
     console.log(`server is running on port: ${port}`);
