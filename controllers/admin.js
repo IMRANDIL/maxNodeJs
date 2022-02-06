@@ -1,7 +1,7 @@
-
+const mongodb = require('mongodb')
 const Product = require('../modals/product')
 
-
+// const Id = new mongodb.ObjectId;
 
 exports.postProduct = (req, res) => {
     const title = req.body.title;
@@ -49,15 +49,14 @@ exports.postEdit = (req, res, next) => {
     const updatedUrl = req.body.imageUrl;
     const updatedPrice = req.body.price;
     const updatedDesc = req.body.desc;
-    Product.findByPk(prodId).then((product) => {
-        product.title = updatedTitle;
-        product.imageUrl = updatedUrl;
-        product.price = updatedPrice;
-        product.desc = updatedDesc;
-        return product.save();
 
-    }).then((result) => {
-        console.log(`successfully updated ${result.title}`);
+
+    const product = new Product(updatedTitle, updatedPrice, updatedDesc, updatedUrl, new mongodb.ObjectId(prodId));
+
+
+
+    product.save().then((result) => {
+        console.log(`successfully updated`);
         res.redirect('/products')
     })
         .catch(err => console.log(err))
