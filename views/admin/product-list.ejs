@@ -28,9 +28,9 @@
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <a href="/edit-product/<%=rows[prod].id%>?edit=true" class="btn">Edit</a>
+                                    <a href="/edit-product/<%=rows[prod]._id%>?edit=true" class="btn">Edit</a>
                                     <form action="/delete-product" method="POST">
-                                        <input type="hidden" name="productId" value="<%= rows[prod].id %>">
+                                        <input type="hidden" name="productId" value="<%= rows[prod]._id %>">
                                         <button class="btn" type="submit">Delete</button>
                                     </form>
 
