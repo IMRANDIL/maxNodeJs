@@ -56,7 +56,7 @@ exports.postEdit = (req, res, next) => {
 
 
     product.save().then((result) => {
-        console.log(`successfully updated`);
+        // console.log(`successfully updated`);
         res.redirect('/products')
     })
         .catch(err => console.log(err))
