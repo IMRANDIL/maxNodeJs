@@ -51,7 +51,7 @@ exports.postEdit = (req, res, next) => {
     const updatedDesc = req.body.desc;
 
 
-    const product = new Product(updatedTitle, updatedPrice, updatedDesc, updatedUrl, new mongodb.ObjectId(prodId));
+    const product = new Product(updatedTitle, updatedPrice, updatedDesc, updatedUrl, prodId);
 
 
 
