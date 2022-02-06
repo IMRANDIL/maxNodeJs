@@ -10,14 +10,14 @@ const getproducs = require('../controllers/admin')
 
 router.get('/add-product', getproducs.getProducts);
 
-// router.get('/admin-products', getproducs.getAdminProduct)
+router.get('/admin-products', getproducs.getAdminProduct)
 
-// router.get('/edit-product/:productId', getproducs.getEditProducts)
+router.get('/edit-product/:productId', getproducs.getEditProducts)
 
 router.post('/add-product', postprod.postProduct)
 
-// router.post('/edit-product', postprod.postEdit);
+router.post('/edit-product', postprod.postEdit);
 
-// router.post('/delete-product', postprod.deleteProduct)
+router.post('/delete-product', postprod.deleteProduct)
 
 module.exports = { router };

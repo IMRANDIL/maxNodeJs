@@ -28,7 +28,7 @@ exports.getEditProducts = (req, res) => {
         return res.redirect('/')
     }
     const prodId = req.params.productId;
-    Product.findByPk(prodId).then((product) => {
+    Product.findById(prodId).then((product) => {
         if (!product) {
             return res.redirect('/');
         }
@@ -94,7 +94,7 @@ exports.getProducts = (req, res) => {
 
 
 exports.getAdminProduct = (req, res, next) => {
-    req.Specuser.getProducts().then((rows) => {
+    Product.fetchAll().then((rows) => {
         res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0 });
     }).catch(err => console.log(err))
 }
