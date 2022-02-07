@@ -9,7 +9,7 @@ exports.postProduct = (req, res) => {
     const price = req.body.price;
     const desc = req.body.desc;
     // const userId = req.Specuser.id;
-    const product = new Product(title, price, desc, imageUrl)
+    const product = new Product(title, price, desc, imageUrl, null, req.Specuser._id)
     product.save().then((result) => {
 
         // console.log(`Successfully Created`);
