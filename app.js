@@ -13,7 +13,7 @@ const userSpec = async (req, res, next) => {
     try {
         const Specuser = await User.findById("61ff8b7b000fabf9fff12360");
 
-        req.Specuser = Specuser;
+        req.Specuser = new User(Specuser.name, Specuser.email, Specuser.cart, Specuser._id);
 
         next()
 
