@@ -44,10 +44,10 @@ exports.getIndex = (req, res, next) => {
 exports.getCart = (req, res, next) => {
 
 
-    req.Specuser.getCart().then((cart) => {
-        return cart.getProducts().then((cartProducts) => {
-            res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
-        }).catch(err => console.log(err))
+    req.Specuser.getCart().then((cartProducts) => {
+        console.log(cartProducts)
+        res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
+
     }).catch(err => console.log(err))
 
 
