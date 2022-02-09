@@ -5,11 +5,11 @@ const Product = require('../modals/product')
 
 exports.postProduct = (req, res) => {
     const title = req.body.title;
-    const imageUrl = req.body.imageUrl;
+    const ImageUrl = req.body.ImageUrl;
     const price = req.body.price;
     const desc = req.body.desc;
     // const userId = req.Specuser.id;
-    const product = new Product({ title: title, price: price, desc: desc, ImageUrl: imageUrl })
+    const product = new Product({ title: title, price: price, desc: desc, ImageUrl: ImageUrl })
     product.save().then((result) => {
 
         // console.log(`Successfully Created`);
@@ -46,19 +46,23 @@ exports.getEditProducts = (req, res) => {
 exports.postEdit = (req, res, next) => {
     const prodId = req.body.productId;
     const updatedTitle = req.body.title;
-    const updatedUrl = req.body.imageUrl;
+    const updatedUrl = req.body.ImageUrl;
     const updatedPrice = req.body.price;
     const updatedDesc = req.body.desc;
 
+    Product.findById(prodId).then((product) => {
+        product.title = updatedTitle;
+        product.price = updatedPrice;
+        product.desc = updatedDesc;
+        product.ImageUrl = updatedUrl;
 
-    const product = new Product(updatedTitle, updatedPrice, updatedDesc, updatedUrl, prodId);
 
-
-
-    product.save().then((result) => {
-        // console.log(`successfully updated`);
-        res.redirect('/products')
+        return product.save()
     })
+        .then((result) => {
+            // console.log(`successfully updated`);
+            res.redirect('/products')
+        })
         .catch(err => console.log(err))
 
 }
@@ -91,7 +95,7 @@ exports.getProducts = (req, res) => {
 
 
 exports.getAdminProduct = (req, res, next) => {
-    Product.fetchAll().then((rows) => {
+    Product.find({}).then((rows) => {
         res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0 });
     }).catch(err => console.log(err))
 }
