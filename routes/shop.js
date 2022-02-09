@@ -6,9 +6,9 @@ const getprod = require('../controllers/products')
 // const { product } = require('../routes/admin');
 
 
-// router.get('/', getprod.getIndex);
-// router.get('/products', getprod.getProduct);
-// router.get('/products/:prodId', getprod.getSpecId)
+router.get('/', getprod.getIndex);
+router.get('/products', getprod.getProduct);
+router.get('/products/:prodId', getprod.getSpecId)
 // router.get('/cart', getprod.getCart);
 // router.post('/cart-delete', getprod.deleteCart)
 // router.post('/cart', getprod.postCart)

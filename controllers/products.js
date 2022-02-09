@@ -1,44 +1,44 @@
 // // const { product } = require('../routes/admin');
 // // const products = [];
 
-// const Product = require('../modals/product');
+const Product = require('../modals/product');
 
 
 
 
-// exports.getProduct = (req, res) => {
+exports.getProduct = (req, res) => {
 
-//     Product.fetchAll().then((rows) => {
-//         res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0 });
-//     }).catch((err) => console.log(err));
+    Product.find({}).then((rows) => {
+        res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0 });
+    }).catch((err) => console.log(err));
 
-// }
+}
 
-// exports.getSpecId = (req, res, next) => {
-//     const prodId = req.params.prodId;
-//     Product.findById(prodId).then((rows) => {
-//         // console.log(rows);
-//         res.render('shop/product-detail', {
-//             rows, title: rows.title, path: '/products'
-//         })
-//     }).catch(err => console.log(err))
+exports.getSpecId = (req, res, next) => {
+    const prodId = req.params.prodId;
+    Product.findById(prodId).then((rows) => {
+        // console.log(rows);
+        res.render('shop/product-detail', {
+            rows, title: rows.title, path: '/products'
+        })
+    }).catch(err => console.log(err))
 
-// }
-
-
+}
 
 
 
 
 
 
-// exports.getIndex = (req, res, next) => {
-//     Product.fetchAll().then((rows) => {
-//         // console.log(rows.dataValues);
-//         res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0 });
-//     }).catch((err) => console.log(err));
 
-// }
+
+exports.getIndex = (req, res, next) => {
+    Product.find({}).then((rows) => {
+        // console.log(rows.dataValues);
+        res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0 });
+    }).catch((err) => console.log(err));
+
+}
 
 
 // exports.getCart = (req, res, next) => {
