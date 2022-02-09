@@ -1,4 +1,4 @@
-const mongodb = require('mongodb')
+
 const Product = require('../modals/product')
 
 // const Id = new mongodb.ObjectId;
@@ -9,7 +9,7 @@ exports.postProduct = (req, res) => {
     const price = req.body.price;
     const desc = req.body.desc;
     // const userId = req.Specuser.id;
-    const product = new Product(title, price, desc, imageUrl, null, req.Specuser._id)
+    const product = new Product({ title: title, price: price, desc: desc, imageUrl: imageUrl })
     product.save().then((result) => {
 
         // console.log(`Successfully Created`);
