@@ -10,23 +10,23 @@ const mongoose = require('mongoose')
 
 const app = express();
 
-// const userSpec = async (req, res, next) => {
-//     try {
-//         const Specuser = await User.findById("61ff8b7b000fabf9fff12360");
+const userSpec = async (req, res, next) => {
+    try {
+        const Specuser = await User.findById("6204831089d7382e7e8e5bf3");
 
-//         req.Specuser = new User(Specuser.name, Specuser.email, Specuser.cart, Specuser._id);
+        req.Specuser = Specuser;
 
-//         next()
-
-
-//     } catch (error) {
-//         console.log(error);
-//     }
+        next()
 
 
-// }
+    } catch (error) {
+        console.log(error);
+    }
 
-// app.use(userSpec)
+
+}
+
+app.use(userSpec)
 
 
 
@@ -71,6 +71,20 @@ app.use(Err.err);
 
 
 mongoose.connect(process.env.URI).then((result) => {
+    User.findOne().then((user) => {
+        if (!user) {
+            const user = new User({
+                name: 'Ali',
+                email: 'aliimranadil2@gmail.com',
+                cart: {
+                    items: []
+                }
+            });
+
+            user.save()
+        }
+    })
+
     app.listen(port);
     console.log(`server is listening on port: ${port}😃`);
 }).catch((err) => console.log(err))
