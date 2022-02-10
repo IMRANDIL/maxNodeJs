@@ -45,7 +45,7 @@ exports.getCart = (req, res, next) => {
 
 
     req.Specuser.populate('cart.items.productId').then((user) => {
-        console.log(user.cart.items);
+        // console.log(user.cart.items);
         const cartProducts = user.cart.items;
         res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
 
@@ -61,7 +61,7 @@ exports.postCart = (req, res, next) => {
         return req.Specuser.addToCart(product)
 
     }).then((result) => {
-        console.log(result)
+        // console.log(result)
         res.redirect('/cart')
     })
 
@@ -86,16 +86,15 @@ exports.postCart = (req, res, next) => {
 
 
 
-// exports.deleteCart = (req, res, next) => {
-//     const prodId = req.body.productId;
-//     req.Specuser.deleteItem(prodId).
+exports.deleteCart = (req, res, next) => {
+    const prodId = req.body.productId;
 
-//         then((result) => {
-//             return res.redirect('/cart')
-//         })
-//         .catch((err) => console.log(err))
+    req.Specuser.deleteItem(prodId).then((result) => {
+        return res.redirect('/cart')
+    })
+        .catch((err) => console.log(err))
 
-// }
+}
 
 
 
