@@ -9,7 +9,7 @@ exports.postProduct = (req, res) => {
     const price = req.body.price;
     const desc = req.body.desc;
     // const userId = req.Specuser.id;
-    const product = new Product({ title: title, price: price, desc: desc, ImageUrl: ImageUrl })
+    const product = new Product({ title: title, price: price, desc: desc, ImageUrl: ImageUrl, userId: req.Specuser })
     product.save().then((result) => {
 
         // console.log(`Successfully Created`);
@@ -95,9 +95,12 @@ exports.getProducts = (req, res) => {
 
 
 exports.getAdminProduct = (req, res, next) => {
-    Product.find({}).then((rows) => {
-        res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0 });
-    }).catch(err => console.log(err))
+    Product.find({})
+        // populate('userId')
+        .then((rows) => {
+            // console.log(rows)
+            res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0 });
+        }).catch(err => console.log(err))
 }
 
 
