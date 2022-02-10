@@ -53,18 +53,18 @@ exports.getIndex = (req, res, next) => {
 
 // }
 
-// exports.postCart = (req, res, next) => {
-//     const prodId = req.body.productId;
+exports.postCart = (req, res, next) => {
+    const prodId = req.body.productId;
 
-//     Product.findById(prodId).then((product) => {
-//         return req.Specuser.addToCart(product)
+    Product.findById(prodId).then((product) => {
+        return req.Specuser.addToCart(product)
 
-//     }).then((result) => {
-//         console.log(result)
-//         res.redirect('/cart')
-//     })
+    }).then((result) => {
+        console.log(result)
+        res.redirect('/cart')
+    })
 
-// }
+}
 
 
 
