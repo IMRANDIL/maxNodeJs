@@ -125,10 +125,11 @@ exports.deleteCart = (req, res, next) => {
 
 
 
-// exports.getOrder = (req, res, next) => {
-//     req.Specuser.getOrders().then((orders) => {
-//         console.log(orders);
-//         res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders })
-//     }).catch(err => console.log(err))
+exports.getOrder = (req, res, next) => {
 
-// }
+    Order.find({ 'user.userId': req.Specuser._id }).then((orders) => {
+        console.log(orders);
+        res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders })
+    }).catch(err => console.log(err))
+
+}
