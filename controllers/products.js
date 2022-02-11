@@ -3,6 +3,8 @@
 
 const Product = require('../modals/product');
 
+const Order = require('../modals/order')
+
 
 
 
@@ -69,14 +71,33 @@ exports.postCart = (req, res, next) => {
 
 
 
-// exports.postOrder = (req, res, next) => {
-//     let fetchedCart;
-//     req.Specuser.addOrder()
-//         .then((result) => {
-//             res.redirect('/orders')
-//         })
-//         .catch((err) => console.log(err))
-// }
+exports.postOrder = (req, res, next) => {
+
+    req.Specuser.populate('cart.items.productId').then((user) => {
+
+        // console.log(user.cart.items);
+        const cartProducts = user.cart.items.map((item) => {
+            return { quantity: item.quantity, product: item.productId };
+        })
+
+
+        const order = new Order({
+            user: {
+                name: req.Specuser.name,
+                userId: req.Specuser
+            },
+            products: cartProducts
+        });
+
+        return order.save()
+
+
+    })
+        .then((result) => {
+            res.redirect('/orders')
+        })
+        .catch((err) => console.log(err))
+}
 
 
 
