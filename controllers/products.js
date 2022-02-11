@@ -77,7 +77,7 @@ exports.postOrder = (req, res, next) => {
 
         // console.log(user.cart.items);
         const cartProducts = user.cart.items.map((item) => {
-            return { quantity: item.quantity, product: item.productId };
+            return { quantity: item.quantity, product: { ...item.productId._doc } };
         })
 
 
@@ -94,8 +94,12 @@ exports.postOrder = (req, res, next) => {
 
     })
         .then((result) => {
+            return req.Specuser.clearCart()
+
+        }).then(() => {
             res.redirect('/orders')
         })
+
         .catch((err) => console.log(err))
 }
 
