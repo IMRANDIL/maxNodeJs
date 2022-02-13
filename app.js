@@ -6,7 +6,8 @@ const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
 const User = require('./modals/user');
 const mongoose = require('mongoose');
-const authRoute = require('./routes/auth')
+const authRoute = require('./routes/auth');
+const session = require('express-session')
 
 
 const app = express();
@@ -34,6 +35,7 @@ app.use(userSpec)
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: false }))
 
 
 
