@@ -5,7 +5,8 @@ const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
 const User = require('./modals/user');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const authRoute = require('./routes/auth')
 
 
 const app = express();
@@ -39,7 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', shoprouter)
 app.use('/', router);
 
-
+app.use(authRoute)
 
 
 
