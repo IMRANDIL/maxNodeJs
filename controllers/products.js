@@ -11,7 +11,7 @@ const Order = require('../modals/order')
 exports.getProduct = (req, res) => {
 
     Product.find({}).then((rows) => {
-        res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0 });
+        res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0, isAuthenticated: req.isLoggedIn });
     }).catch((err) => console.log(err));
 
 }
@@ -21,7 +21,8 @@ exports.getSpecId = (req, res, next) => {
     Product.findById(prodId).then((rows) => {
         // console.log(rows);
         res.render('shop/product-detail', {
-            rows, title: rows.title, path: '/products'
+            rows, title: rows.title, path: '/products',
+            isAuthenticated: req.isLoggedIn
         })
     }).catch(err => console.log(err))
 
@@ -37,7 +38,7 @@ exports.getSpecId = (req, res, next) => {
 exports.getIndex = (req, res, next) => {
     Product.find({}).then((rows) => {
         // console.log(rows.dataValues);
-        res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0 });
+        res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0, isAuthenticated: req.isLoggedIn });
     }).catch((err) => console.log(err));
 
 }
@@ -49,7 +50,7 @@ exports.getCart = (req, res, next) => {
     req.Specuser.populate('cart.items.productId').then((user) => {
         // console.log(user.cart.items);
         const cartProducts = user.cart.items;
-        res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
+        res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart', isAuthenticated: req.isLoggedIn })
 
     }).catch(err => console.log(err))
 
@@ -129,7 +130,7 @@ exports.getOrder = (req, res, next) => {
 
     Order.find({ 'user.userId': req.Specuser._id }).then((orders) => {
         console.log(orders);
-        res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders })
+        res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders, isAuthenticated: req.isLoggedIn })
     }).catch(err => console.log(err))
 
 }
