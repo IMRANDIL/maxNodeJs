@@ -41,6 +41,8 @@ User.methods.addToCart = function (product) {
 
 User.methods.deleteItem = function (productId) {
     const updatedCartItems = this.cart.items.filter((item) => {
+        // console.log(item);
+
         return item.productId.toString() !== productId.toString()
     });
     this.cart.items = updatedCartItems;

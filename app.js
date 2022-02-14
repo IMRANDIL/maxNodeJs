@@ -20,23 +20,23 @@ const store = new MongodbStore({
 
 })
 
-const userSpec = async (req, res, next) => {
-    try {
-        const Specuser = await User.findById("6204831089d7382e7e8e5bf3");
+// const userSpec = async (req, res, next) => {
+//     try {
+//         const Specuser = await User.findById("6204831089d7382e7e8e5bf3");
 
-        req.Specuser = Specuser;
+//         req.Specuser = Specuser;
 
-        next()
-
-
-    } catch (error) {
-        console.log(error);
-    }
+//         next()
 
 
-}
+//     } catch (error) {
+//         console.log(error);
+//     }
 
-app.use(userSpec)
+
+// }
+
+// app.use(userSpec)
 
 
 
@@ -47,8 +47,11 @@ app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: fals
 
 
 app.use((req, res, next) => {
+    if (!req.session.user) {
+        return next()
+    }
     User.findById(req.session.user._id).then((user) => {
-        req.Specuser = user;
+        req.user = user;
         next()
     }).catch((err) => console.log(err))
 })

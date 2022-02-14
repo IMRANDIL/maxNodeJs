@@ -47,9 +47,10 @@ exports.getIndex = (req, res, next) => {
 exports.getCart = (req, res, next) => {
 
 
-    req.Specuser.populate('cart.items.productId').then((user) => {
+    req.user.populate('cart.items.productId').then((user) => {
         // console.log(user.cart.items);
         const cartProducts = user.cart.items;
+        // console.log(cartProducts);
         res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart', isAuthenticated: req.session.isLoggedIn })
 
     }).catch(err => console.log(err))
@@ -61,7 +62,7 @@ exports.postCart = (req, res, next) => {
     const prodId = req.body.productId;
 
     Product.findById(prodId).then((product) => {
-        return req.Specuser.addToCart(product)
+        return req.user.addToCart(product)
 
     }).then((result) => {
         // console.log(result)
@@ -74,7 +75,7 @@ exports.postCart = (req, res, next) => {
 
 exports.postOrder = (req, res, next) => {
 
-    req.Specuser.populate('cart.items.productId').then((user) => {
+    req.user.populate('cart.items.productId').then((user) => {
 
         // console.log(user.cart.items);
         const cartProducts = user.cart.items.map((item) => {
@@ -84,8 +85,8 @@ exports.postOrder = (req, res, next) => {
 
         const order = new Order({
             user: {
-                name: req.Specuser.name,
-                userId: req.Specuser
+                name: req.user.name,
+                userId: req.user
             },
             products: cartProducts
         });
@@ -95,7 +96,7 @@ exports.postOrder = (req, res, next) => {
 
     })
         .then((result) => {
-            return req.Specuser.clearCart()
+            return req.user.clearCart()
 
         }).then(() => {
             res.redirect('/orders')
@@ -113,9 +114,10 @@ exports.postOrder = (req, res, next) => {
 
 
 exports.deleteCart = (req, res, next) => {
-    const prodId = req.body.productId;
 
-    req.Specuser.deleteItem(prodId).then((result) => {
+    const prodId = req.body.productId;
+    console.log(prodId);
+    req.user.deleteItem(prodId).then((result) => {
         return res.redirect('/cart')
     })
         .catch((err) => console.log(err))
@@ -128,7 +130,7 @@ exports.deleteCart = (req, res, next) => {
 
 exports.getOrder = (req, res, next) => {
 
-    Order.find({ 'user.userId': req.Specuser._id }).then((orders) => {
+    Order.find({ 'user.userId': req.user._id }).then((orders) => {
         console.log(orders);
         res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders, isAuthenticated: req.session.isLoggedIn })
     }).catch(err => console.log(err))
