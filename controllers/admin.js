@@ -33,7 +33,7 @@ exports.getEditProducts = (req, res) => {
             return res.redirect('/');
         }
         else {
-            res.render('admin/edit-product', { product, title: `Edit__Product`, path: req.url, editing: editMode, isAuthenticated: req.isLoggedIn })
+            res.render('admin/edit-product', { product, title: `Edit__Product`, path: req.url, editing: editMode, isAuthenticated: req.session.isLoggedIn })
         }
     }).catch(err => console.log(err));
 
@@ -85,7 +85,7 @@ exports.deleteProduct = (req, res, next) => {
 exports.getProducts = (req, res) => {
     // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
 
-    res.render('admin/edit-product', { title: `Add__Product`, path: req.url, editing: false, isAuthenticated: req.isLoggedIn })
+    res.render('admin/edit-product', { title: `Add__Product`, path: req.url, editing: false, isAuthenticated: req.session.isLoggedIn })
 
 }
 
@@ -99,7 +99,7 @@ exports.getAdminProduct = (req, res, next) => {
         // populate('userId')
         .then((rows) => {
             // console.log(rows)
-            res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0, isAuthenticated: req.isLoggedIn });
+            res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0, isAuthenticated: req.session.isLoggedIn });
         }).catch(err => console.log(err))
 }
 
