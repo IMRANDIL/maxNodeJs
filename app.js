@@ -1,16 +1,24 @@
 const express = require('express');
 const path = require('path');
 
+require('dotenv').config();
 const { router } = require('./routes/admin');
 const shoprouter = require('./routes/shop');
 const Err = require('./controllers/err');
 const User = require('./modals/user');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
-const session = require('express-session')
+const session = require('express-session');
+const MongodbStore = require('connect-mongodb-session')(session)
 
 
 const app = express();
+
+const store = new MongodbStore({
+    uri: process.env.URI,
+    collection: 'sessions'
+
+})
 
 const userSpec = async (req, res, next) => {
     try {
@@ -35,7 +43,7 @@ app.use(userSpec)
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: false }))
+app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: false, store: store }))
 
 
 
@@ -46,7 +54,6 @@ app.use(authRoute)
 
 
 
-require('dotenv').config();
 
 const port = process.env.PORT || 8000;
 
