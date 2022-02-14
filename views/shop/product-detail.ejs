@@ -15,9 +15,11 @@
                 <p>
                     <%=rows.desc%>
                 </p>
-                <form action="/cart" method="post">
-                    <button class="btn" type="submit">Add To Cart</button>
-                    <input type="hidden" name="productId" value="<%=rows._id%>">
-                </form>
+                <% if(isAuthenticated) { %>
+                    <form action="/cart" method="post">
+                        <button class="btn" type="submit">Add To Cart</button>
+                        <input type="hidden" name="productId" value="<%=rows._id%>">
+                    </form>
+                    <% } %>
             </main>
             <%- include('../includesEjs/end.ejs') %>
