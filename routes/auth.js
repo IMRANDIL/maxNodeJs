@@ -1,9 +1,10 @@
 const router = require('express').Router();
 
-const { getLogin, postLogin } = require('../controllers/auth')
+const { getLogin, postLogin, postLogout } = require('../controllers/auth')
 
 router.get('/login', getLogin)
-router.post('/login', postLogin)
+router.post('/login', postLogin);
+router.post('/logout', postLogout);
 
 
 
