@@ -43,7 +43,15 @@ app.use(userSpec)
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
-app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: false, store: store }))
+app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: false, store: store }));
+
+
+app.use((req, res, next) => {
+    User.findById(req.session.user._id).then((user) => {
+        req.Specuser = user;
+        next()
+    }).catch((err) => console.log(err))
+})
 
 
 
