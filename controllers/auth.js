@@ -50,29 +50,25 @@ exports.postSignup = (req, res, next) => {
 
         }
 
-        return bcrypt.hash(password, 12);
+        return bcrypt.hash(password, 12).then((hashedPass) => {
+            const user = new User({
+                email: email,
+                password: hashedPass,
+                cart: { items: [] }
+            });
 
-
-
-
-
-
-
-
-    }).then((hashedPass) => {
-        const user = new User({
-            email: email,
-            password: hashedPass,
-            cart: { items: [] }
-        });
-
-        return user.save()
-    })
-        .then((result) => {
+            return user.save()
+        }).then((result) => {
             return res.redirect('/login')
         })
-        .catch((err) => console.log(err))
+            .catch((err) => console.log(err));
+    })
+
 }
+
+
+
+
 
 
 
