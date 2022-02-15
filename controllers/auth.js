@@ -11,15 +11,30 @@ exports.getLogin = (req, res, next) => {
 
 
 exports.postLogin = (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
 
     // res.setHeader('Set-Cookie', 'loggedIn=true') //setting cookie...//session...server side...cookie...client side
-    User.findById('6204831089d7382e7e8e5bf3').then((user) => {
-        req.session.isLoggedIn = true;
-        req.session.user = user;
-        req.session.save((err) => {
+    User.findOne({ email: email }).then((user) => {
+        if (!user) {
+            return res.redirect('/login')
+        }
+        bcrypt.compare(password, user.password).then((doMatch) => {
+            if (doMatch) {
+                req.session.isLoggedIn = true;
+                req.session.user = user;
+                return req.session.save((err) => {
+                    console.log(err);
+                    res.redirect('/')
+                })
+
+            }
+            res.redirect('/login')
+        }).catch((err) => {
             console.log(err);
-            res.redirect('/')
-        })
+            return res.redirect('/login')
+        });
+
 
     }).catch((err) => console.log(err))
 
