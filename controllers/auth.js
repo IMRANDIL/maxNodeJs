@@ -1,4 +1,5 @@
-const user = require("../modals/user")
+const bcrypt = require('bcryptjs')
+const User = require("../modals/user");
 
 exports.getLogin = (req, res, next) => {
     // console.log(req.session.isLoggedIn)
@@ -12,7 +13,7 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
 
     // res.setHeader('Set-Cookie', 'loggedIn=true') //setting cookie...//session...server side...cookie...client side
-    user.findById('6204831089d7382e7e8e5bf3').then((user) => {
+    User.findById('6204831089d7382e7e8e5bf3').then((user) => {
         req.session.isLoggedIn = true;
         req.session.user = user;
         req.session.save((err) => {
@@ -40,7 +41,37 @@ exports.postLogout = (req, res, next) => {
 
 
 exports.postSignup = (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+    User.findOne({ email: email }).then((userDoc) => {
+        if (userDoc) {
+            return res.redirect('/signup');
 
+        }
+
+        return bcrypt.hash(password, 12);
+
+
+
+
+
+
+
+
+    }).then((hashedPass) => {
+        const user = new User({
+            email: email,
+            password: hashedPass,
+            cart: { items: [] }
+        });
+
+        return user.save()
+    })
+        .then((result) => {
+            return res.redirect('/login')
+        })
+        .catch((err) => console.log(err))
 }
 
 

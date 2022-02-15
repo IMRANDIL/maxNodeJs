@@ -92,20 +92,6 @@ app.use(Err.err);
 
 
 mongoose.connect(process.env.URI).then((result) => {
-    User.findOne().then((user) => {
-        if (!user) {
-            const user = new User({
-                name: 'Ali',
-                email: 'aliimranadil2@gmail.com',
-                cart: {
-                    items: []
-                }
-            });
-
-            user.save()
-        }
-    })
-
     app.listen(port);
     console.log(`server is listening on port: ${port}😃`);
 }).catch((err) => console.log(err))
