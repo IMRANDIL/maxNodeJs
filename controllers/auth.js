@@ -1,7 +1,7 @@
 const user = require("../modals/user")
 
 exports.getLogin = (req, res, next) => {
-    console.log(req.session.isLoggedIn)
+    // console.log(req.session.isLoggedIn)
     // const isLoggedIn = req.get('Cookie').trim().split('=')[1] === 'true'
     res.render('auth/login', { path: req.url, title: 'Login_Page', isAuthenticated: req.session.isLoggedIn })
 
@@ -15,8 +15,11 @@ exports.postLogin = (req, res, next) => {
     user.findById('6204831089d7382e7e8e5bf3').then((user) => {
         req.session.isLoggedIn = true;
         req.session.user = user;
+        req.session.save((err) => {
+            console.log(err);
+            res.redirect('/')
+        })
 
-        res.redirect('/')
     }).catch((err) => console.log(err))
 
 

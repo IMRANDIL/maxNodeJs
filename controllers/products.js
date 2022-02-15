@@ -116,7 +116,7 @@ exports.postOrder = (req, res, next) => {
 exports.deleteCart = (req, res, next) => {
 
     const prodId = req.body.productId;
-    console.log(prodId);
+    // console.log(prodId);
     req.user.deleteItem(prodId).then((result) => {
         return res.redirect('/cart')
     })
@@ -131,7 +131,7 @@ exports.deleteCart = (req, res, next) => {
 exports.getOrder = (req, res, next) => {
 
     Order.find({ 'user.userId': req.user._id }).then((orders) => {
-        console.log(orders);
+        // console.log(orders);
         res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders, isAuthenticated: req.session.isLoggedIn })
     }).catch(err => console.log(err))
 
