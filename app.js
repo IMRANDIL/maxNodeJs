@@ -10,10 +10,19 @@ const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
 const session = require('express-session');
 const MongodbStore = require('connect-mongodb-session')(session);
-const csrf = require('csurf')
+const csrf = require('csurf');
+const flash = require('connect-flash')
+
+
 
 
 const app = express();
+
+
+
+
+
+
 
 const store = new MongodbStore({
     uri: process.env.URI,
@@ -26,6 +35,9 @@ const csrfProtection = csrf()
 
 
 
+
+
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -34,6 +46,14 @@ app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: fals
 
 
 app.use(csrfProtection)
+
+
+app.use(flash())
+
+
+
+
+
 
 
 
@@ -61,10 +81,19 @@ app.use((req, res, next) => {
 
 
 
+
+
 app.use('/', shoprouter)
 app.use('/', router);
 
 app.use(authRoute)
+
+
+
+
+
+
+
 
 
 

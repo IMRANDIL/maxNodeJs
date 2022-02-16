@@ -4,7 +4,7 @@ const User = require("../modals/user");
 exports.getLogin = (req, res, next) => {
     // console.log(req.session.isLoggedIn)
     // const isLoggedIn = req.get('Cookie').trim().split('=')[1] === 'true'
-    res.render('auth/login', { path: req.url, title: 'Login_Page' })
+    res.render('auth/login', { path: req.url, title: 'Login_Page', errorMsg: req.flash('error') })
 
 
 }
@@ -17,6 +17,7 @@ exports.postLogin = (req, res, next) => {
     // res.setHeader('Set-Cookie', 'loggedIn=true') //setting cookie...//session...server side...cookie...client side
     User.findOne({ email: email }).then((user) => {
         if (!user) {
+            req.flash('error', 'Invalid email or password!')
             return res.redirect('/login')
         }
         bcrypt.compare(password, user.password).then((doMatch) => {
