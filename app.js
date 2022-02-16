@@ -9,7 +9,8 @@ const User = require('./modals/user');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/auth');
 const session = require('express-session');
-const MongodbStore = require('connect-mongodb-session')(session)
+const MongodbStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf')
 
 
 const app = express();
@@ -18,25 +19,10 @@ const store = new MongodbStore({
     uri: process.env.URI,
     collection: 'sessions'
 
-})
-
-// const userSpec = async (req, res, next) => {
-//     try {
-//         const Specuser = await User.findById("6204831089d7382e7e8e5bf3");
-
-//         req.Specuser = Specuser;
-
-//         next()
+});
 
 
-//     } catch (error) {
-//         console.log(error);
-//     }
-
-
-// }
-
-// app.use(userSpec)
+const csrfProtection = csrf()
 
 
 
@@ -44,6 +30,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: 'my secretone', resave: false, saveUninitialized: false, store: store }));
+
+
+
+app.use(csrfProtection)
+
+
+
 
 
 app.use((req, res, next) => {
