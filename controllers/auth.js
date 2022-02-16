@@ -4,7 +4,7 @@ const User = require("../modals/user");
 exports.getLogin = (req, res, next) => {
     // console.log(req.session.isLoggedIn)
     // const isLoggedIn = req.get('Cookie').trim().split('=')[1] === 'true'
-    res.render('auth/login', { path: req.url, title: 'Login_Page', isAuthenticated: false })
+    res.render('auth/login', { path: req.url, title: 'Login_Page' })
 
 
 }
@@ -88,5 +88,5 @@ exports.postSignup = (req, res, next) => {
 
 
 exports.getSignup = (req, res, next) => {
-    res.render('auth/signup', { path: req.url, title: 'SignUp', isAuthenticated: false })
+    res.render('auth/signup', { path: req.url, title: 'SignUp' })
 }

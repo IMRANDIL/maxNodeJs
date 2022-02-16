@@ -33,7 +33,7 @@ exports.getEditProducts = (req, res) => {
             return res.redirect('/');
         }
         else {
-            res.render('admin/edit-product', { product, title: `Edit__Product`, path: req.url, editing: editMode, isAuthenticated: req.session.isLoggedIn })
+            res.render('admin/edit-product', { product, title: `Edit__Product`, path: req.url, editing: editMode })
         }
     }).catch(err => console.log(err));
 
@@ -88,7 +88,7 @@ exports.getProducts = (req, res) => {
     //     return res.redirect('/login')
     // }
 
-    res.render('admin/edit-product', { title: `Add__Product`, path: req.url, editing: false, isAuthenticated: req.session.isLoggedIn })
+    res.render('admin/edit-product', { title: `Add__Product`, path: req.url, editing: false })
 
 }
 
@@ -105,7 +105,7 @@ exports.getAdminProduct = (req, res, next) => {
         // populate('userId')
         .then((rows) => {
             // console.log(rows)
-            res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0, isAuthenticated: req.session.isLoggedIn });
+            res.render('admin/product-list', { rows, title: 'The Admin', path: req.url, hasProducts: rows.length > 0 });
         }).catch(err => console.log(err))
 }
 

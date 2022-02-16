@@ -11,7 +11,7 @@ const Order = require('../modals/order')
 exports.getProduct = (req, res) => {
 
     Product.find({}).then((rows) => {
-        res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0, isAuthenticated: req.session.isLoggedIn });
+        res.render('shop/shop', { rows, title: 'All Products', path: req.url, hasProducts: rows.length > 0 });
     }).catch((err) => console.log(err));
 
 }
@@ -21,8 +21,8 @@ exports.getSpecId = (req, res, next) => {
     Product.findById(prodId).then((rows) => {
         // console.log(rows);
         res.render('shop/product-detail', {
-            rows, title: rows.title, path: '/products',
-            isAuthenticated: req.session.isLoggedIn
+            rows, title: rows.title, path: '/products'
+
         })
     }).catch(err => console.log(err))
 
@@ -51,7 +51,7 @@ exports.getCart = (req, res, next) => {
         // console.log(user.cart.items);
         const cartProducts = user.cart.items;
         // console.log(cartProducts);
-        res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart', isAuthenticated: req.session.isLoggedIn })
+        res.render('shop/cart', { cartProducts, path: req.url, title: 'The_Cart' })
 
     }).catch(err => console.log(err))
 
@@ -132,7 +132,7 @@ exports.getOrder = (req, res, next) => {
 
     Order.find({ 'user.userId': req.user._id }).then((orders) => {
         // console.log(orders);
-        res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders, isAuthenticated: req.session.isLoggedIn })
+        res.render('shop/orders', { path: req.url, title: 'The Orders', orders: orders })
     }).catch(err => console.log(err))
 
 }
