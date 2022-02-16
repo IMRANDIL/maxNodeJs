@@ -38,7 +38,7 @@ exports.getSpecId = (req, res, next) => {
 exports.getIndex = (req, res, next) => {
     Product.find({}).then((rows) => {
         // console.log(rows.dataValues);
-        res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0, isAuthenticated: req.session.isLoggedIn, csrfToken: req.csrfToken() });
+        res.render('shop/index', { rows, title: 'The Shop', path: req.url, hasProducts: rows.length > 0 });
     }).catch((err) => console.log(err));
 
 }
