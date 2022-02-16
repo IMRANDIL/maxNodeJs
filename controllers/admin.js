@@ -83,7 +83,10 @@ exports.deleteProduct = (req, res, next) => {
 
 
 exports.getProducts = (req, res) => {
-    // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'))
+    // res.sendFile(path.join(__dirname, '..', 'views', 'add-product.html'));
+    // if (!req.session.isLoggedIn) {
+    //     return res.redirect('/login')
+    // }
 
     res.render('admin/edit-product', { title: `Add__Product`, path: req.url, editing: false, isAuthenticated: req.session.isLoggedIn })
 
@@ -95,6 +98,9 @@ exports.getProducts = (req, res) => {
 
 
 exports.getAdminProduct = (req, res, next) => {
+    // if (!req.session.isLoggedIn) {
+    //     return res.redirect('/login')
+    // }
     Product.find({})
         // populate('userId')
         .then((rows) => {
