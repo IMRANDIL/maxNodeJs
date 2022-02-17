@@ -2,9 +2,16 @@ const bcrypt = require('bcryptjs')
 const User = require("../modals/user");
 
 exports.getLogin = (req, res, next) => {
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0]
+    } else {
+        message = null;
+    }
+
     // console.log(req.session.isLoggedIn)
     // const isLoggedIn = req.get('Cookie').trim().split('=')[1] === 'true'
-    res.render('auth/login', { path: req.url, title: 'Login_Page', errorMsg: req.flash('error') })
+    res.render('auth/login', { path: req.url, title: 'Login_Page', errorMsg: message })
 
 
 }
