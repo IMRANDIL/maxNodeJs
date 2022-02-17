@@ -37,6 +37,7 @@ exports.postLogin = (req, res, next) => {
                 })
 
             }
+            req.flash('error', 'Invalid email or password!')
             res.redirect('/login')
         }).catch((err) => {
             console.log(err);
@@ -69,6 +70,7 @@ exports.postSignup = (req, res, next) => {
     const confirmPassword = req.body.confirmPassword;
     User.findOne({ email: email }).then((userDoc) => {
         if (userDoc) {
+            req.flash('error', 'E-mail already exists!')
             return res.redirect('/signup');
 
         }
@@ -96,5 +98,11 @@ exports.postSignup = (req, res, next) => {
 
 
 exports.getSignup = (req, res, next) => {
-    res.render('auth/signup', { path: req.url, title: 'SignUp' })
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0]
+    } else {
+        message = null;
+    }
+    res.render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: message })
 }
