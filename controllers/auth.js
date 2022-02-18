@@ -101,7 +101,7 @@ exports.postSignup = (req, res, next) => {
             res.redirect('/login')
             return transporter.sendMail({
                 to: email,
-                from: 'shop@node-complete.com',
+                from: 'aliimranadil2@gmail.com',
                 subject: 'Signup Succeeded!',
                 html: `<h1>You Successfully Signed up!</h1>`
             })
@@ -114,7 +114,7 @@ exports.postSignup = (req, res, next) => {
 
 }
 
-
+//sendgrid not working..........sucks....
 
 
 
@@ -128,4 +128,17 @@ exports.getSignup = (req, res, next) => {
         message = null;
     }
     res.render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: message })
+}
+
+
+
+
+exports.getReset = (req, res, next) => {
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0]
+    } else {
+        message = null;
+    }
+    res.render('auth/reset', { path: req.url, title: 'Reset Password', errorMsg: message })
 }
