@@ -3,16 +3,20 @@ const User = require("../modals/user");
 
 const nodemailer = require('nodemailer');
 
-const sendGridTransport = require('nodemailer-sendgrid-transport');
+// const sendGridTransport = require('nodemailer-sendgrid-transport');
 
 
-const transporter = nodemailer.createTransport(sendGridTransport({
+let smtpTransporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.HOST_PORT,
+    secure: false,
+
     auth: {
+        user: 'aliimranadil2@gmail.com',
+        pass: process.env.SMTP_PASSWORD
 
-        api_key: process.env.API_KEY
     }
-}))
-
+});
 
 
 exports.getLogin = (req, res, next) => {
@@ -99,9 +103,9 @@ exports.postSignup = (req, res, next) => {
             return user.save()
         }).then((result) => {
             res.redirect('/login')
-            return transporter.sendMail({
+            return smtpTransporter.sendMail({
                 to: email,
-                from: 'aliimranadil2@gmail.com',
+                from: 'shop@node.com',
                 subject: 'Signup Succeeded!',
                 html: `<h1>You Successfully Signed up!</h1>`
             })
