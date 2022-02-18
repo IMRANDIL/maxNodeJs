@@ -8,30 +8,29 @@
             <main>
                 <% if (hasProducts) { %>
                     <div class="grid">
-                        <% for (prod in rows) { %>
+                        <% for (let prod of rows) { %>
                             <article class="card product-item">
                                 <header class="card__header">
                                     <h1 class="product__title">
-                                        <%= rows[prod].title %>
+                                        <%= prod.title %>
                                     </h1>
                                 </header>
                                 <div class="card__image">
-                                    <img src="<%= rows[prod].ImageUrl %>" alt="<%= rows[prod].title %>" width="400"
-                                        height="300">
+                                    <img src="<%= prod.ImageUrl %>" alt="<%= prod.title %>" width="400" height="300">
                                 </div>
                                 <div class="card__content">
                                     <h2 class="product__price">$
-                                        <%= rows[prod].price %>
+                                        <%= prod.price %>
                                     </h2>
                                     <p class="product__description">
-                                        <%= rows[prod].desc %>
+                                        <%= prod.desc %>
                                     </p>
                                 </div>
                                 <div class="card__actions">
-                                    <a href="/edit-product/<%=rows[prod]._id%>?edit=true" class="btn">Edit</a>
+                                    <a href="/edit-product/<%=prod._id%>?edit=true" class="btn">Edit</a>
                                     <form action="/delete-product" method="POST">
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <input type="hidden" name="productId" value="<%= rows[prod]._id %>">
+                                        <input type="hidden" name="productId" value="<%= prod._id %>">
                                         <button class="btn" type="submit">Delete</button>
                                     </form>
 
