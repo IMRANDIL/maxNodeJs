@@ -51,18 +51,21 @@ exports.postEdit = (req, res, next) => {
     const updatedDesc = req.body.desc;
 
     Product.findById(prodId).then((product) => {
+        if (product.userId !== req.user._id) {
+            return res.redirect('/')
+        }
         product.title = updatedTitle;
         product.price = updatedPrice;
         product.desc = updatedDesc;
         product.ImageUrl = updatedUrl;
 
 
-        return product.save()
-    })
-        .then((result) => {
+        return product.save().then((result) => {
             // console.log(`successfully updated`);
             res.redirect('/products')
         })
+    })
+
         .catch(err => console.log(err))
 
 }
@@ -70,8 +73,8 @@ exports.postEdit = (req, res, next) => {
 
 exports.deleteProduct = (req, res, next) => {
     const prodId = req.body.productId;
-    console.log(prodId);
-    Product.findByIdAndDelete(prodId)
+    // console.log(prodId);
+    Product.deleteOne({ _id: prodId, userId: req.user._id })
         .then(() => {
             // console.log('Succssfully deleted ');
             res.redirect('/admin-products')
