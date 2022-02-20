@@ -9,7 +9,7 @@ router.post('/signup', postSignup)
 router.get('/signup', getSignup)
 router.get('/reset', getReset);
 router.post('/reset', postReset);
-router.get('/new-password', getNewPass);
+router.get('/reset/:token', getNewPass);
 
 
 
