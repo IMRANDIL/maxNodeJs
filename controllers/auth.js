@@ -1,7 +1,11 @@
+const crypto = require('crypto')
+
+
 const bcrypt = require('bcryptjs')
 const User = require("../modals/user");
 
 const nodemailer = require('nodemailer');
+const user = require('../modals/user');
 
 // const sendGridTransport = require('nodemailer-sendgrid-transport');
 
@@ -145,4 +149,44 @@ exports.getReset = (req, res, next) => {
         message = null;
     }
     res.render('auth/reset', { path: req.url, title: 'Reset Password', errorMsg: message })
+}
+
+
+
+exports.postReset = (req, res, next) => {
+    crypto.randomBytes(32, (err, buffer) => {
+        if (err) {
+            console.log(err);
+            return res.redirect('/reset')
+        }
+
+        const token = buffer.toString('hex');
+        User.findOne({ email: req.body.email }).then((user) => {
+            if (!user) {
+                req.flash('error', 'No Account found with this email.');
+                return res.redirect('/reset')
+            }
+
+            user.resetToken = token;
+            user.resetTokenExpiration = Date.now() + 3600000;
+            return user.save()
+
+
+        }).then((result) => {
+            res.redirect('/')
+            smtpTransporter.sendMail({
+                to: req.body.email,
+                from: 'shop@node.com',
+                subject: 'Password Reset!',
+                html: `
+                <p>You Requested a password reset!</p>
+                <p>Click this link <a href='http://localhost:5000/reset/${token}'></a> to set a new password!</p>
+
+
+                `
+            })
+        })
+
+            .catch((err) => console.log(err))
+    })
 }
