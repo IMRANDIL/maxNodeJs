@@ -102,7 +102,7 @@ exports.getAdminProduct = (req, res, next) => {
     // if (!req.session.isLoggedIn) {
     //     return res.redirect('/login')
     // }
-    Product.find({})
+    Product.find({ userId: req.user._id })
         // populate('userId')
         .then((rows) => {
             // console.log(rows)
