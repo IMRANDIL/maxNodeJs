@@ -161,10 +161,14 @@ exports.postReset = (req, res, next) => {
         }
 
         const token = buffer.toString('hex');
+
+
+
         User.findOne({ email: req.body.email }).then((user) => {
             if (!user) {
                 req.flash('error', 'No Account found with this email.');
-                return res.redirect('/reset')
+                return res.redirect('/reset');
+
             }
 
             user.resetToken = token;
@@ -174,13 +178,13 @@ exports.postReset = (req, res, next) => {
 
         }).then((result) => {
             res.redirect('/')
-            smtpTransporter.sendMail({
+            return smtpTransporter.sendMail({
                 to: req.body.email,
                 from: 'shop@node.com',
                 subject: 'Password Reset!',
                 html: `
                 <p>You Requested a password reset!</p>
-                <p>Click this link <a href='http://localhost:5000/reset/${token}'></a> to set a new password!</p>
+                <p>Click this <a href='http://localhost:5000/reset/${token}'>link</a> to set a new password!</p>
 
 
                 `
