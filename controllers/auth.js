@@ -7,6 +7,8 @@ const User = require("../modals/user");
 const nodemailer = require('nodemailer');
 const user = require('../modals/user');
 
+const { validationResult } = require('express-validator/check')
+
 // const sendGridTransport = require('nodemailer-sendgrid-transport');
 
 
@@ -90,6 +92,17 @@ exports.postSignup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const confirmPassword = req.body.confirmPassword;
+
+    const errors = validationResult(req);
+
+
+    if (!errors.isEmpty()) {
+        console.log(errors.array());
+        return res.status(422).render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: errors.array() })
+    }
+
+
+
     User.findOne({ email: email }).then((userDoc) => {
         if (userDoc) {
             req.flash('error', 'E-mail already exists!')
