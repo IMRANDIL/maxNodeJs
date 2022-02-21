@@ -7,7 +7,7 @@ const { getLogin, postLogin, postLogout, postSignup, getSignup, getReset, postRe
 router.get('/login', getLogin)
 router.post('/login', postLogin);
 router.post('/logout', postLogout);
-router.post('/signup', check('email').isEmail(), postSignup)
+router.post('/signup', check('email').isEmail().withMessage('Please Enter A Valid Email'), postSignup)
 router.get('/signup', getSignup)
 router.get('/reset', getReset);
 router.post('/reset', postReset);
