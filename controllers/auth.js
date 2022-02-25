@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const User = require("../modals/user");
 
 const nodemailer = require('nodemailer');
-const user = require('../modals/user');
+
 
 const { validationResult } = require('express-validator/check')
 
@@ -46,6 +46,18 @@ exports.postLogin = (req, res, next) => {
     const password = req.body.password;
 
     // res.setHeader('Set-Cookie', 'loggedIn=true') //setting cookie...//session...server side...cookie...client side
+
+    const errors = validationResult(req);
+
+
+    if (!errors.isEmpty()) {
+        // console.log(errors.array());
+        return res.status(422).render('auth/login', { path: req.url, title: 'Login', errorMsg: errors.array()[0].msg })
+    }
+
+
+
+
     User.findOne({ email: email }).then((user) => {
         if (!user) {
             req.flash('error', 'Invalid email or password!')
@@ -91,6 +103,7 @@ exports.postLogout = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
 
 
     const errors = validationResult(req);
@@ -98,7 +111,7 @@ exports.postSignup = (req, res, next) => {
 
     if (!errors.isEmpty()) {
         // console.log(errors.array());
-        return res.status(422).render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: errors.array()[0] })
+        return res.status(422).render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: errors.array()[0].msg, oldInput: { email: email, password: password, confirmPassword: confirmPassword } })
     }
 
 
@@ -141,7 +154,7 @@ exports.getSignup = (req, res, next) => {
     } else {
         message = null;
     }
-    res.render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: message })
+    res.render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: message, oldInput: { email: "", password: "", confirmPassword: "" } })
 }
 
 
