@@ -35,7 +35,7 @@ exports.getLogin = (req, res, next) => {
 
     // console.log(req.session.isLoggedIn)
     // const isLoggedIn = req.get('Cookie').trim().split('=')[1] === 'true'
-    res.render('auth/login', { path: req.url, title: 'Login_Page', errorMsg: message })
+    res.render('auth/login', { path: req.url, title: 'Login_Page', errorMsg: message, oldInput: { email: '', password: '' }, validationErrors: [] })
 
 
 }
@@ -52,7 +52,13 @@ exports.postLogin = (req, res, next) => {
 
     if (!errors.isEmpty()) {
         // console.log(errors.array());
-        return res.status(422).render('auth/login', { path: req.url, title: 'Login', errorMsg: errors.array()[0].msg })
+        return res.status(422).render('auth/login',
+            {
+                path: req.url, title: 'Login',
+                errorMsg: errors.array()[0].msg,
+                oldInput: { email: email, password: password },
+                validationErrors: errors.array()
+            })
     }
 
 
@@ -60,8 +66,14 @@ exports.postLogin = (req, res, next) => {
 
     User.findOne({ email: email }).then((user) => {
         if (!user) {
-            req.flash('error', 'Invalid email or password!')
-            return res.redirect('/login')
+
+            return res.status(422).render('auth/login',
+                {
+                    path: req.url, title: 'Login',
+                    errorMsg: 'Invalid email or password!',
+                    oldInput: { email: email, password: password },
+                    validationErrors: []
+                })
         }
         bcrypt.compare(password, user.password).then((doMatch) => {
             if (doMatch) {
@@ -73,8 +85,13 @@ exports.postLogin = (req, res, next) => {
                 })
 
             }
-            req.flash('error', 'Invalid email or password!')
-            res.redirect('/login')
+            return res.status(422).render('auth/login',
+                {
+                    path: req.url, title: 'Login',
+                    errorMsg: 'Invalid email or password!',
+                    oldInput: { email: email, password: password },
+                    validationErrors: []
+                })
         }).catch((err) => {
             console.log(err);
             return res.redirect('/login')
