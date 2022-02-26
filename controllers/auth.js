@@ -111,7 +111,7 @@ exports.postSignup = (req, res, next) => {
 
     if (!errors.isEmpty()) {
         // console.log(errors.array());
-        return res.status(422).render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: errors.array()[0].msg, oldInput: { email: email, password: password, confirmPassword: confirmPassword } })
+        return res.status(422).render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: errors.array()[0].msg, oldInput: { email: email, password: password, confirmPassword: confirmPassword }, validationErrors: errors.array() })
     }
 
 
@@ -154,7 +154,7 @@ exports.getSignup = (req, res, next) => {
     } else {
         message = null;
     }
-    res.render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: message, oldInput: { email: "", password: "", confirmPassword: "" } })
+    res.render('auth/signup', { path: req.url, title: 'SignUp', errorMsg: message, oldInput: { email: "", password: "", confirmPassword: "" }, validationErrors: [] })
 }
 
 
