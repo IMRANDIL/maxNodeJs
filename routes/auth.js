@@ -19,10 +19,10 @@ router.get('/login', getLogin)
 router.post('/login', [
     body('email')
         .isEmail()
-        .withMessage('Please enter a valid email address.'),
+        .withMessage('Please enter a valid email address.').normalizeEmail(),
     body('password', 'Password has to be valid.')
         .isLength({ min: 5 })
-        .isAlphanumeric()
+        .isAlphanumeric().trim()
 ], postLogin);
 router.post('/logout', postLogout);
 
@@ -40,7 +40,7 @@ router.post('/signup', [check('email').isEmail().withMessage('Please Enter A Val
         }
 
     })
-}), body('password', 'Please Enter a password with only numbers and text and atleast 5 characters.').isLength({ min: 5, max: 20 }).isAlphanumeric(), body('confirmPassword').custom((value, { req }) => {
+}).normalizeEmail(), body('password', 'Please Enter a password with only numbers and text and atleast 5 characters.').isLength({ min: 5, max: 20 }).isAlphanumeric().trim(), body('confirmPassword').trim().custom((value, { req }) => {
     if (value !== req.body.password) {
         throw new Error("Password have to match")
     }
